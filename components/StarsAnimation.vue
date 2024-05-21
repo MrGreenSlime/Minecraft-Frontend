@@ -14,5 +14,5 @@ export default defineComponent({
 </script>
 
 <style scoped>
-@import '@/assets/scss/backgroundStars.scss';
+@import '@/assets/scss/animations/_backgroundStars.sass';
 </style>
