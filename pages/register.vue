@@ -1,20 +1,24 @@
 <template>
-  <div class="login-container">
-    <div class="login">
-      <h2>Login</h2>
-      <form @submit.prevent="handleSubmit" class="login-form">
-        <div class="login-form--field">
-          <input v-model="username" id="username" type="text" name="username" required>
-          <label for="username">Username</label>
+  <div class="register-container">
+    <div class="register">
+      <h2>Register</h2>
+      <form @submit.prevent="handleRegister" class="register-form">
+        <div class="register-form--field">
+          <input v-model="name" id="name" type="text" name="name" required>
+          <label for="name">Name</label>
         </div>
-        <div class="login-form--field">
+        <div class="register-form--field">
+          <input v-model="email" id="email" type="email" name="email" required>
+          <label for="email">Email</label>
+        </div>
+        <div class="register-form--field">
           <input v-model="password" id="password" type="password" name="password" required>
           <label for="password">Password</label>
         </div>
-        <input type="submit" value="Login">
+        <input type="submit" value="Register">
       </form>
       <p class="mt-4">
-        <nuxt-link to="/register" class="text-purple-600 hover:underline">No account? Register here</nuxt-link>
+        <nuxt-link to="/login" class="text-purple-600 hover:underline">Already have an account? Login here</nuxt-link>
       </p>
     </div>
   </div>
@@ -23,37 +27,32 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useStore } from 'vuex'
+import axios from 'axios'
 
-const username = ref('')
+const name = ref('')
+const email = ref('')
 const password = ref('')
 const router = useRouter()
-const store = useStore()
 
-const handleSubmit = async () => {
-  // Temporary admin credentials
-  const validUsername = 'admin'
-  const validPassword = 'admin'
-
-  if (username.value === validUsername && password.value === validPassword) {
-    // Simulate a token for the demo
-    const token = 'fake-jwt-token'
-    // store.commit('SET_TOKEN', token)
-    router.push('/dashboard')
-  } else {
-    try {
-      await store.dispatch('login', { username: username.value, password: password.value })
-      router.push('/dashboard')
-    } catch (error) {
-      alert('Login failed. Please check your credentials.')
-    }
+const handleRegister = async () => {
+  try {
+    const response = await axios.post('https://minecraftapi.thibeprovost.ikdoeict.be/api/users', {
+      name: name.value,
+      email: email.value,
+      password: password.value,
+    })
+    alert(response.data.message)
+    router.push('/login')
+  } catch (error) {
+    alert('Registration failed. Please try again.')
+    console.error('Error registering user:', error)
   }
 }
 </script>
 
 <style scoped>
-/* Center the login form using flexbox */
-.login-container {
+/* Center the register form using flexbox */
+.register-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -62,7 +61,7 @@ const handleSubmit = async () => {
   background-position: center;
 }
 
-.login {
+.register {
   width: 100%;
   max-width: 400px;
   padding: 2rem;
@@ -91,7 +90,7 @@ h2 {
   margin-bottom: 1.5rem;
 }
 
-.login-form--field {
+.register-form--field {
   margin-bottom: 1.5rem;
   position: relative;
   animation: slideIn 0.5s ease-in-out;
@@ -108,7 +107,7 @@ h2 {
   }
 }
 
-.login-form--field label {
+.register-form--field label {
   position: absolute;
   top: 50%;
   left: 10px;
@@ -118,15 +117,15 @@ h2 {
   pointer-events: none;
 }
 
-.login-form--field input:focus + label,
-.login-form--field input:not(:placeholder-shown) + label {
+.register-form--field input:focus + label,
+.register-form--field input:not(:placeholder-shown) + label {
   top: -10px;
   left: 10px;
   color: #9A19D2;
   font-size: 0.8rem;
 }
 
-.login-form--field input {
+.register-form--field input {
   width: 100%;
   padding: 0.75rem 1rem;
   border: 1px solid #ccc;
@@ -137,7 +136,7 @@ h2 {
   background: rgba(255, 255, 255, 0.6);
 }
 
-.login-form--field input:focus {
+.register-form--field input:focus {
   border-color: #9A19D2;
   background: rgba(255, 255, 255, 0.8);
 }

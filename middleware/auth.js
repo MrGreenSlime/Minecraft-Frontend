@@ -1,5 +1,5 @@
 export default function ({ store, redirect }) {
-    // Check if the user is authenticated
+    // If the user is not authenticated
     if (!store.getters.isAuthenticated) {
         return redirect('/login')
     }

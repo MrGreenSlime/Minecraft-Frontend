@@ -1,42 +1,53 @@
 <template>
-  <div>
-    <h1>Dashboard</h1>
-    <p>Welcome to your dashboard!</p>
+  <div class="dashboard-container">
+    <h1 class="text-3xl font-bold mb-4 text-center">Dashboard</h1>
+    <p class="text-lg mb-6 text-center">Welcome to your dashboard!</p>
 
-    <div v-if="loading" class="loading">Loading...</div>
+    <div v-if="loading" class="loading text-center">
+      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      Loading...
+    </div>
 
-    <div v-else>
-      <div>
-        <h2>Select World</h2>
-        <select v-model="selectedWorld" @change="fetchColonies">
+    <div v-else class="max-w-4xl mx-auto grid grid-cols-4 gap-4">
+      <div class="col-span-4 md:col-span-1 p-4 border border-gray-300 rounded">
+        <h2 class="text-xl font-semibold mb-2">Select World</h2>
+        <select v-model="selectedWorld" @change="fetchColonies" class="w-full p-2 border border-gray-300 rounded">
+          <option value="" disabled>Select a world</option>
           <option v-for="world in worlds" :key="world.worldId" :value="world.worldId">{{ world.name }}</option>
         </select>
       </div>
 
-      <div v-if="colonies.length > 0">
-        <h2>Select Colony</h2>
-        <select v-model="selectedColony" @change="fetchColonyData">
+      <div class="col-span-4 md:col-span-1 p-4 border border-gray-300 rounded" v-if="colonies.length > 0">
+        <h2 class="text-xl font-semibold mb-2">Select Colony</h2>
+        <select v-model="selectedColony" @change="fetchColonyData" class="w-full p-2 border border-gray-300 rounded">
+          <option value="" disabled>Select a colony</option>
           <option v-for="colony in colonies" :key="colony.colonieId" :value="colony.colonieId">{{ colony.name }}</option>
         </select>
       </div>
 
-      <div v-if="requests.length > 0 || builderRequests.length > 0">
-        <h2>Requests</h2>
-        <ul>
+      <div class="col-span-4 md:col-span-2 p-4 border border-gray-300 rounded">
+        <h2 class="text-xl font-semibold mb-4">Requests</h2>
+        <ul class="list-disc list-inside mb-6">
           <li v-for="request in requests" :key="request.RequestId">{{ request.name }} - {{ request.state }}</li>
         </ul>
 
-        <h2>Builder Requests</h2>
-        <ul>
+        <h2 class="text-xl font-semibold mb-4">Builder Requests</h2>
+        <ul class="list-disc list-inside">
           <li v-for="builderRequest in builderRequests" :key="builderRequest.BuilderId">{{ builderRequest.name }}</li>
         </ul>
+      </div>
+
+      <div class="col-span-4 md:col-span-1 p-4 border border-gray-300 rounded">
+        <button class="w-full p-2 mb-2 bg-purple-600 text-white rounded" @click="completeAllRequests">Complete All Requests</button>
+        <button class="w-full p-2 mb-2 bg-purple-600 text-white rounded" @click="completeTools">Complete Tools</button>
+        <button class="w-full p-2 mb-2 bg-purple-600 text-white rounded" @click="completeArmor">Complete Armor</button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import {ref, onMounted} from 'vue'
 import axios from 'axios'
 
 const worlds = ref([])
@@ -91,17 +102,37 @@ const fetchColonyData = async () => {
   }
 }
 
+const completeAllRequests = async () => {
+  // Implement functionality to complete all requests
+}
+
+const completeTools = async () => {
+  // Implement functionality to complete tools requests
+}
+
+const completeArmor = async () => {
+  // Implement functionality to complete armor requests
+}
+
 onMounted(() => {
   fetchWorlds()
 })
 </script>
 
 <style scoped>
-/* Add styles for the dashboard page */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-size: cover;
+  background-position: center;
+}
+
 .loading {
   text-align: center;
   font-size: 1.5rem;
-  color: #007bff;
+  color: #9a19d2;
 }
 </style>
-s
