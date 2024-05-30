@@ -1,46 +1,170 @@
 <template>
   <div class="dashboard-container">
-    <h1 class="text-3xl font-bold mb-4 text-center">Dashboard</h1>
-    <p class="text-lg mb-6 text-center">Welcome to your dashboard!</p>
+    <div class="dashboard">
+      <h1 class="text-3xl font-bold mb-4 text-center">Dashboard</h1>
+<!--      <p class="text-lg mb-6 text-center">Welcome to your dashboard!</p>-->
 
-    <div v-if="loading" class="loading text-center">
-      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-      Loading...
+      <div v-if="loading" class="loading text-center">
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Loading...
+      </div>
+
+      <div v-if="loading" class="loading text-center">
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Loading...
+      </div>
+      <div v-else class="max-w-4xl mx-auto">
+        <!-- Select World and Select Colony side by side -->
+        <div class="selection-container">
+          <div class="selection-box">
+<!--            <h2 class="text-xl font-semibold mb-2">Select World</h2>-->
+            <button @click="showWorldModal = true" class="w-full p-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
+              Select World
+            </button>
+            <p v-if="selectedWorldName" class="selected-item mt-2 text-center">Selected World: {{ selectedWorldName }}</p>
+          </div>
+
+          <div class="selection-box">
+<!--            <h2 class="text-xl font-semibold mb-2">Select Colony</h2>-->
+            <button @click="showColonyModal = true" class="w-full p-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
+              Select Colony
+            </button>
+            <p v-if="selectedColonyName" class="selected-item mt-2 text-center">Selected Colony: {{ selectedColonyName }}</p>
+          </div>
+        </div>
+
+        <div class="col-span-4 md:col-span-1 p-4 border border-gray-300 rounded bg-white shadow-lg margin">
+          <button class="w-full p-2 mb-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+                  @click="completeAllRequests">Autocomplete All Requests
+          </button>
+          <button class="w-full p-2 mb-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+                  @click="completeTools">
+            Autocomplete Tools
+          </button>
+          <button class="w-full p-2 mb-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+                  @click="completeArmor">
+            Autocomplete Armor
+          </button>
+        </div>
+
+        <div class="col-span-4 md:col-span-4 p-4 border border-gray-300 rounded bg-white shadow-lg">
+          <h2 class="text-xl font-semibold mb-4">Requests</h2>
+          <div class="overflow-x-auto max-h-64 overflow-y-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Target</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">State</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Count</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Min Count</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
+              </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+              <tr v-for="request in requests" :key="request.id">
+                <td class="px-6 py-4 whitespace-nowrap">{{ request.id }}</td>
+                <td class="px-6 py-4 whitespace-nowrap">{{ request.name }}</td>
+                <td class="px-6 py-4 whitespace-nowrap">{{ request.desc }}</td>
+                <td class="px-6 py-4 whitespace-nowrap">{{ request.target }}</td>
+                <td class="px-6 py-4 whitespace-nowrap">{{ request.state }}</td>
+                <td class="px-6 py-4 whitespace-nowrap">{{ request.count }}</td>
+                <td class="px-6 py-4 whitespace-nowrap">{{ request.minCount }}</td>
+                <td class="px-6 py-4 whitespace-nowrap">{{ new Date(request.created_at).toLocaleString() }}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 class="text-xl font-semibold mb-4 mt-6">Builder Requests</h2>
+          <div class="overflow-x-auto max-h-64 overflow-y-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Autocomplete</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+              </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+              <tr v-for="builderRequest in builderRequests" :key="builderRequest.id">
+                <td class="px-6 py-4 whitespace-nowrap">{{ builderRequest.id }}</td>
+                <td class="px-6 py-4 whitespace-nowrap">{{ builderRequest.name }}</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <button
+                      :class="['w-full', 'p-2', 'rounded-lg', 'hover:bg-purple-700', builderRequest.autocomplete ? 'bg-green-600' : 'bg-purple-600', 'text-white']"
+                      @click="toggleAutocomplete(builderRequest.id)">
+                    {{ builderRequest.autocomplete ? 'True' : 'False' }}
+                  </button>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">{{ new Date(builderRequest.created_at).toLocaleString() }}</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <button @click="toggleBuilderRequestInfo(builderRequest.id)" class="text-purple-600 hover:underline">
+                    {{ expandedRequest === builderRequest.id ? 'Close Info' : 'More Info' }}
+                  </button>
+                </td>
+                <transition name="slide-fade">
+                  <tr v-if="expandedRequest === builderRequest.id" class="bg-gray-50">
+                    <td colspan="5" class="p-4">
+                      <div v-if="builderRequestDetails[builderRequest.id]" class="details-container">
+                        <p><strong>ID:</strong> {{ builderRequestDetails[builderRequest.id]?.id }}</p>
+                        <p><strong>Name:</strong> {{ builderRequestDetails[builderRequest.id]?.name }}</p>
+                        <p><strong>Autocomplete:</strong> {{ builderRequestDetails[builderRequest.id]?.autocomplete }}</p>
+                        <p><strong>Location:</strong> (X: {{ builderRequestDetails[builderRequest.id]?.location?.x }},
+                          Y: {{ builderRequestDetails[builderRequest.id]?.location?.y }}, Z:
+                          {{ builderRequestDetails[builderRequest.id]?.location?.z }})</p>
+                        <p><strong>Created At:</strong>
+                          {{ new Date(builderRequestDetails[builderRequest.id]?.created_at).toLocaleString() }}</p>
+                        <h3 class="font-semibold mt-2">Requests:</h3>
+                        <ul class="list-disc list-inside">
+                          <li v-for="req in builderRequestDetails[builderRequest.id]?.Requests" :key="req.id">
+                            <p><strong>Item:</strong> {{ req.item.displayName }} ({{ req.item.name }})</p>
+                            <p><strong>Status:</strong> {{ req.status }}</p>
+                            <p><strong>Needed:</strong> {{ req.needed }}</p>
+                            <p><strong>Available:</strong> {{ req.available }}</p>
+                            <p><strong>Delivering:</strong> {{ req.delivering }}</p>
+                          </li>
+                        </ul>
+                      </div>
+                      <div v-else>Loading...</div>
+                    </td>
+                  </tr>
+                </transition>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div v-else class="max-w-4xl mx-auto grid grid-cols-4 gap-4">
-      <div class="col-span-4 md:col-span-1 p-4 border border-gray-300 rounded">
-        <h2 class="text-xl font-semibold mb-2">Select World</h2>
-        <select v-model="selectedWorld" @change="fetchColonies" class="w-full p-2 border border-gray-300 rounded">
-          <option value="" disabled>Select a world</option>
-          <option v-for="world in worlds" :key="world.worldId" :value="world.worldId">{{ world.name }}</option>
-        </select>
-      </div>
-
-      <div class="col-span-4 md:col-span-1 p-4 border border-gray-300 rounded" v-if="colonies.length > 0">
-        <h2 class="text-xl font-semibold mb-2">Select Colony</h2>
-        <select v-model="selectedColony" @change="fetchColonyData" class="w-full p-2 border border-gray-300 rounded">
-          <option value="" disabled>Select a colony</option>
-          <option v-for="colony in colonies" :key="colony.colonieId" :value="colony.colonieId">{{ colony.name }}</option>
-        </select>
-      </div>
-
-      <div class="col-span-4 md:col-span-2 p-4 border border-gray-300 rounded">
-        <h2 class="text-xl font-semibold mb-4">Requests</h2>
-        <ul class="list-disc list-inside mb-6">
-          <li v-for="request in requests" :key="request.RequestId">{{ request.name }} - {{ request.state }}</li>
+    <!-- World Selection Modal -->
+    <div v-if="showWorldModal" class="modal-overlay" @click.self="showWorldModal = false">
+      <div class="modal-content">
+        <h2>Select World</h2>
+        <ul>
+          <li v-for="world in worlds" :key="world.id" @click="selectWorld(world.id)">
+            {{ world.name }}
+          </li>
         </ul>
-
-        <h2 class="text-xl font-semibold mb-4">Builder Requests</h2>
-        <ul class="list-disc list-inside">
-          <li v-for="builderRequest in builderRequests" :key="builderRequest.BuilderId">{{ builderRequest.name }}</li>
-        </ul>
+        <button @click="showWorldModal = false" class="close-modal">Close</button>
       </div>
+    </div>
 
-      <div class="col-span-4 md:col-span-1 p-4 border border-gray-300 rounded">
-        <button class="w-full p-2 mb-2 bg-purple-600 text-white rounded" @click="completeAllRequests">Complete All Requests</button>
-        <button class="w-full p-2 mb-2 bg-purple-600 text-white rounded" @click="completeTools">Complete Tools</button>
-        <button class="w-full p-2 mb-2 bg-purple-600 text-white rounded" @click="completeArmor">Complete Armor</button>
+    <!-- Colony Selection Modal -->
+    <div v-if="showColonyModal" class="modal-overlay" @click.self="showColonyModal = false">
+      <div class="modal-content">
+        <h2>Select Colony</h2>
+        <ul>
+          <li v-for="colony in colonies" :key="colony.id" @click="selectColony(colony.id)">
+            {{ colony.name }}
+          </li>
+        </ul>
+        <button @click="showColonyModal = false" class="close-modal">Close</button>
       </div>
     </div>
   </div>
@@ -49,19 +173,34 @@
 <script setup>
 import {ref, onMounted} from 'vue'
 import axios from 'axios'
+import {useAuthStore} from '@/stores/auth'
+
+const authStore = useAuthStore()
+const token = authStore.token
 
 const worlds = ref([])
 const colonies = ref([])
 const requests = ref([])
 const builderRequests = ref([])
 const selectedWorld = ref(null)
+const selectedWorldName = ref('')
 const selectedColony = ref(null)
+const selectedColonyName = ref('')
 const loading = ref(true)
+const expandedRequest = ref(null)
+const builderRequestDetails = ref({})
+const showWorldModal = ref(false)
+const showColonyModal = ref(false)
 
 const fetchWorlds = async () => {
   try {
-    const response = await axios.get('https://minecraftapi.thibeprovost.ikdoeict.be/api/worlds')
-    worlds.value = response.data
+    const response = await axios.get('https://minecraftapi.thibeprovost.ikdoeict.be/api/worlds', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    worlds.value = response.data.data
+    console.log('Worlds:', response.data.data)
   } catch (error) {
     console.error('Error fetching worlds:', error)
   } finally {
@@ -73,9 +212,15 @@ const fetchColonies = async () => {
   if (!selectedWorld.value) return
   loading.value = true
   try {
-    const response = await axios.get(`https://minecraftapi.thibeprovost.ikdoeict.be/api/colonies?world_id=${selectedWorld.value}`)
-    colonies.value = response.data
+    const response = await axios.get(`https://minecraftapi.thibeprovost.ikdoeict.be/api/worlds/${selectedWorld.value}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    colonies.value = response.data.data.colonies
+    console.log('Colonies:', response.data.data.colonies)
     selectedColony.value = null
+    selectedColonyName.value = ''
     requests.value = []
     builderRequests.value = []
   } catch (error) {
@@ -89,12 +234,16 @@ const fetchColonyData = async () => {
   if (!selectedColony.value) return
   loading.value = true
   try {
-    const [requestsResponse, builderRequestsResponse] = await Promise.all([
-      axios.get(`https://minecraftapi.thibeprovost.ikdoeict.be/api/requests?colonies_id=${selectedColony.value}`),
-      axios.get(`https://minecraftapi.thibeprovost.ikdoeict.be/api/builderrequests?colonies_id=${selectedColony.value}`)
-    ])
-    requests.value = requestsResponse.data
-    builderRequests.value = builderRequestsResponse.data
+    const response = await axios.get(`https://minecraftapi.thibeprovost.ikdoeict.be/api/colonies/${selectedColony.value}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    const data = response.data.data
+    requests.value = data.requests
+    builderRequests.value = data.builderRequests
+    console.log('Requests:', data.requests)
+    console.log('Builder Requests:', data.builderRequests)
   } catch (error) {
     console.error('Error fetching colony data:', error)
   } finally {
@@ -102,16 +251,116 @@ const fetchColonyData = async () => {
   }
 }
 
+const fetchBuilderRequestDetails = async (builderRequestId) => {
+  console.log('Fetching builder request details:', builderRequestId)
+  try {
+    const response = await axios.get(`https://minecraftapi.thibeprovost.ikdoeict.be/api/builderrequests/${builderRequestId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    console.log('Builder Request Details:', response.data.data)
+    // Update the builderRequestDetails object with the fetched data
+    builderRequestDetails.value = {...builderRequestDetails.value, [builderRequestId]: response.data.data}
+  } catch (error) {
+    console.error('Error fetching builder request details:', error)
+  }
+}
+
+const toggleBuilderRequestInfo = (builderRequestId) => {
+  if (expandedRequest.value === builderRequestId) {
+    expandedRequest.value = null
+  } else {
+    expandedRequest.value = builderRequestId
+    if (!builderRequestDetails.value[builderRequestId]) {
+      fetchBuilderRequestDetails(builderRequestId)
+    }
+  }
+}
+
+const toggleAutocomplete = async (builderRequestId) => {
+  try {
+    await axios.put(`https://minecraftapi.thibeprovost.ikdoeict.be/api/builderrequests/${builderRequestId}`, {
+      'autocomplete': true
+    }, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    // Update the local state
+    const requestIndex = builderRequests.value.findIndex(request => request.id === builderRequestId)
+    if (requestIndex !== -1) {
+      builderRequests.value[requestIndex].autocomplete = true
+    }
+    alert('Builder request updated successfully.')
+  } catch (error) {
+    console.error('Error updating builder request:', error)
+    alert('Failed to update builder request.')
+  }
+}
+
 const completeAllRequests = async () => {
-  // Implement functionality to complete all requests
+  try {
+    await axios.put(`https://minecraftapi.thibeprovost.ikdoeict.be/api/colonies/${selectedColony.value}`, {
+      'autocomplete': true
+    }, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    alert('All requests completed successfully.')
+  } catch (error) {
+    console.error('Error completing all requests:', error)
+    alert('Failed to complete all requests.')
+  }
 }
 
 const completeTools = async () => {
-  // Implement functionality to complete tools requests
+  try {
+    await axios.put(`https://minecraftapi.thibeprovost.ikdoeict.be/api/colonies/${selectedColony.value}`, {
+      'autoTools': true
+    }, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    alert('Tools requests completed successfully.')
+  } catch (error) {
+    console.error('Error completing tools requests:', error)
+    alert('Failed to complete tools requests.')
+  }
 }
 
 const completeArmor = async () => {
-  // Implement functionality to complete armor requests
+  try {
+    await axios.put(`https://minecraftapi.thibeprovost.ikdoeict.be/api/colonies/${selectedColony.value}`, {
+      'autoArmor': true
+    }, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    alert('Armor requests completed successfully.')
+  } catch (error) {
+    console.error('Error completing armor requests:', error)
+    alert('Failed to complete armor requests.')
+  }
+}
+
+const selectWorld = (worldId) => {
+  const world = worlds.value.find(w => w.id === worldId) || {}
+  selectedWorld.value = worldId
+  selectedWorldName.value = world.name || 'Unknown'
+  showWorldModal.value = false
+  fetchColonies()
+}
+
+const selectColony = (colonyId) => {
+  const colony = colonies.value.find(c => c.id === colonyId) || {}
+  selectedColony.value = colonyId
+  selectedColonyName.value = colony.name || 'Unknown'
+  showColonyModal.value = false
+  fetchColonyData()
 }
 
 onMounted(() => {
@@ -120,19 +369,200 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.selection-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.selection-box {
+  width: 48%;
+}
+
+.selected-item {
+  background-color: #212121;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
+  text-align: center;
+  font-weight: bold;
+}
+
+.dashboard {
+  width: 80%;
+  padding: 2rem;
+  text-align: center;
+  animation: fadeIn 1s ease-in-out;
+  background: rgba(73, 72, 72, 0.41);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(109, 103, 103, 0.18);
+}
+
 .dashboard-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
+  padding-top: 5rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
   background-size: cover;
   background-position: center;
+}
+
+.margin {
+  margin-top: 1.2rem;
+  margin-bottom: 2rem;
 }
 
 .loading {
   text-align: center;
   font-size: 1.5rem;
   color: #9a19d2;
+}
+
+h2 {
+  margin-bottom: 1.5rem;
+}
+
+ul {
+  list-style-type: disc;
+}
+
+li {
+  margin-bottom: 0.5rem;
+}
+
+button {
+  background-color: #9a19d2;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin: 0.5rem;
+}
+
+button:hover {
+  background-color: #870abd;
+}
+
+button:focus {
+  outline: none;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+select {
+  background-color: #333333;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border: 1px solid #9a19d2;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1rem;
+  background-color: #212121;
+  color: #fff;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #444;
+}
+
+th {
+  background-color: #333;
+}
+
+tbody tr:hover {
+  background-color: #444;
+}
+
+.slide-fade-enter-active, .slide-fade-leave-active {
+  transition: all 0.5s ease;
+}
+
+.slide-fade-enter, .slide-fade-leave-to {
+  transform: translateY(-10px);
+  opacity: 0;
+}
+
+.details-container {
+  background-color: #1a1a1a;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.details-container p, .details-container ul {
+  margin: 0.5rem 0;
+}
+
+.details-container ul {
+  padding-left: 1.2rem;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background-color: #252525;
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 500px;
+  width: 90%;
+}
+
+.modal-content h2 {
+  margin-bottom: 1.5rem;
+}
+
+.modal-content ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.modal-content li {
+  padding: 0.5rem 0;
+  cursor: pointer;
+  color: #ffffff;
+   transition: background-color 0.3s, color 0.3s;
+}
+
+.modal-content li:hover {
+  background-color: #eee;
+  color: #333;
+}
+
+.close-modal {
+  background-color: #9a19d2;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.close-modal:hover {
+  background-color: #870abd;
 }
 </style>

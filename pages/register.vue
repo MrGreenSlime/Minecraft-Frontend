@@ -25,8 +25,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+
+import {ref} from 'vue'
+import {useRouter} from 'vue-router'
 import axios from 'axios'
 
 const name = ref('')
@@ -36,10 +37,11 @@ const router = useRouter()
 
 const handleRegister = async () => {
   try {
-    const response = await axios.post('https://minecraftapi.thibeprovost.ikdoeict.be/api/users', {
+    const response = await axios.post('https://minecraftapi.thibeprovost.ikdoeict.be/api/register', {
       name: name.value,
       email: email.value,
       password: password.value,
+      password_confirmation: password.value
     })
     alert(response.data.message)
     router.push('/login')
@@ -51,6 +53,8 @@ const handleRegister = async () => {
 </script>
 
 <style scoped>
+
+
 /* Center the register form using flexbox */
 .register-container {
   display: flex;
@@ -75,6 +79,7 @@ const handleRegister = async () => {
   border: 1px solid rgba(109, 103, 103, 0.18);
 }
 
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -90,11 +95,7 @@ h2 {
   margin-bottom: 1.5rem;
 }
 
-.register-form--field {
-  margin-bottom: 1.5rem;
-  position: relative;
-  animation: slideIn 0.5s ease-in-out;
-}
+
 
 @keyframes slideIn {
   from {
@@ -107,58 +108,15 @@ h2 {
   }
 }
 
-.register-form--field label {
-  position: absolute;
-  top: 50%;
-  left: 10px;
-  transform: translateY(-50%);
-  color: #ccc;
-  transition: all 0.3s ease-in-out;
-  pointer-events: none;
+.text-purple-600 {
+  color: #b200ff;
 }
 
-.register-form--field input:focus + label,
-.register-form--field input:not(:placeholder-shown) + label {
-  top: -10px;
-  left: 10px;
-  color: #9A19D2;
-  font-size: 0.8rem;
+.hover\:underline:hover {
+  text-decoration: underline;
 }
 
-.register-form--field input {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1rem;
-  outline: none;
-  transition: all 0.3s ease-in-out;
-  background: rgba(255, 255, 255, 0.6);
-}
-
-.register-form--field input:focus {
-  border-color: #9A19D2;
-  background: rgba(255, 255, 255, 0.8);
-}
-
-input[type="submit"] {
-  width: 100%;
-  padding: 0.75rem;
-  background-color: #9A19D2;
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
-}
-
-input[type="submit"]:hover {
-  background-color: #9A19D2;
-  transform: translateY(-2px);
-}
-
-input[type="submit"]:active {
-  transform: translateY(1px);
+.mt-4 {
+  margin-top: 1rem;
 }
 </style>

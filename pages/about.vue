@@ -19,7 +19,7 @@
       <a href="https://gitlab.com/ikdoeict/thibe.provost/project-mincraft/minecraft-app">
         <h3>Backend git</h3>
       </a>
-      <a href="https://gitlab.com/ikdoeict/thibe.provost/project-mincraft/mincraft-web">
+      <a href="https://gitlab.com/ikdoeict/thibe.provost/project-mincraft/minecraft-frontendweb">
         <h3>Frontend git</h3>
       </a>
       <nuxt-link to="/work" exact-active-class="is-active">

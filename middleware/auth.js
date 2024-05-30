@@ -1,6 +1,12 @@
-export default function ({ store, redirect }) {
-    // If the user is not authenticated
-    if (!store.getters.isAuthenticated) {
-        return redirect('/login')
+// middleware/auth.js
+import { useAuthStore } from '@/stores/auth'
+
+export default defineNuxtRouteMiddleware((to, from, next) => {
+    const authStore = useAuthStore()
+
+    if (!authStore.token && to.name !== 'login') {
+        return next('/login')
     }
-}
+
+    next()
+})

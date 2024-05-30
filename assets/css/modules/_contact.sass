@@ -103,7 +103,8 @@
     margin-bottom: 30px
 
     input[type="text"],
-    input[type="password"]
+    input[type="password"],
+    input[type="email"]
       width: 100%
       padding: 0 0 5px 0
       background-color: transparent
@@ -115,7 +116,6 @@
       &:focus
         outline: none
         background-color: $black
-
     label
       position: absolute
       top: 0
@@ -138,11 +138,12 @@
   input[type="submit"]:hover
     background-color: #7a10a4
 
-
   input[type="text"]:focus + label,
   input[type="password"]:focus + label,
+  input[type="email"]:focus + label,
   input[type="text"].has-value + label,
-  input[type="password"].has-value + label
+  input[type="password"].has-value + label,
+  input[type="email"].has-value + label
     top: -15px
     font-size: 14px
 

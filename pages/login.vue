@@ -1,18 +1,19 @@
 <template>
   <div class="login-container">
     <div class="login">
-      <h2>Login</h2>
+      <h2 class="margin">Login</h2>
       <form @submit.prevent="handleSubmit" class="login-form">
         <div class="login-form--field">
-          <input v-model="username" id="username" type="text" name="username" required>
-          <label for="username">Username</label>
+          <input class="inputField"  v-model="email" id="email" type="email" name="email" required>
+          <label for="email">Email</label>
         </div>
         <div class="login-form--field">
-          <input v-model="password" id="password" type="password" name="password" required>
+          <input class="inputField" v-model="password" id="password" type="password" name="password" required>
           <label for="password">Password</label>
         </div>
         <input type="submit" value="Login">
       </form>
+      <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
       <p class="mt-4">
         <nuxt-link to="/register" class="text-purple-600 hover:underline">No account? Register here</nuxt-link>
       </p>
@@ -23,35 +24,29 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useStore } from 'vuex'
+import { useAuthStore } from '@/stores/auth'
 
-const username = ref('')
+const email = ref('')
 const password = ref('')
+const errorMessage = ref('');
 const router = useRouter()
-const store = useStore()
+const authStore = useAuthStore()
 
 const handleSubmit = async () => {
-  // Temporary admin credentials
-  const validUsername = 'admin'
-  const validPassword = 'admin'
-
-  if (username.value === validUsername && password.value === validPassword) {
-    // Simulate a token for the demo
-    const token = 'fake-jwt-token'
-    // store.commit('SET_TOKEN', token)
-    router.push('/dashboard')
-  } else {
-    try {
-      await store.dispatch('login', { username: username.value, password: password.value })
-      router.push('/dashboard')
-    } catch (error) {
-      alert('Login failed. Please check your credentials.')
-    }
+  try {
+    await authStore.login(email.value, password.value)
+    await router.push('/dashboard')
+  } catch (error) {
+    alert('Login failed. Please check your credentials.')
   }
 }
 </script>
 
 <style scoped>
+.margin {
+  margin-bottom: 3rem;
+}
+
 /* Center the login form using flexbox */
 .login-container {
   display: flex;
@@ -72,9 +67,10 @@ const handleSubmit = async () => {
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(1px);
-  -webkit-backdrop-filter: blur(5.9px);
+  -webkit-backdrop-filter: blur(6px);
   border: 1px solid rgba(109, 103, 103, 0.18);
 }
+
 
 @keyframes fadeIn {
   from {
@@ -91,11 +87,7 @@ h2 {
   margin-bottom: 1.5rem;
 }
 
-.login-form--field {
-  margin-bottom: 1.5rem;
-  position: relative;
-  animation: slideIn 0.5s ease-in-out;
-}
+
 
 @keyframes slideIn {
   from {
@@ -108,58 +100,23 @@ h2 {
   }
 }
 
-.login-form--field label {
-  position: absolute;
-  top: 50%;
-  left: 10px;
-  transform: translateY(-50%);
-  color: #ccc;
-  transition: all 0.3s ease-in-out;
-  pointer-events: none;
+
+
+
+.text-purple-600 {
+  color: #b200ff;
 }
 
-.login-form--field input:focus + label,
-.login-form--field input:not(:placeholder-shown) + label {
-  top: -10px;
-  left: 10px;
-  color: #9A19D2;
-  font-size: 0.8rem;
+.hover\:underline:hover {
+  text-decoration: underline;
 }
 
-.login-form--field input {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1rem;
-  outline: none;
-  transition: all 0.3s ease-in-out;
-  background: rgba(255, 255, 255, 0.6);
+.mt-4 {
+  margin-top: 1rem;
 }
 
-.login-form--field input:focus {
-  border-color: #9A19D2;
-  background: rgba(255, 255, 255, 0.8);
-}
-
-input[type="submit"] {
-  width: 100%;
-  padding: 0.75rem;
-  background-color: #9A19D2;
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
-}
-
-input[type="submit"]:hover {
-  background-color: #9A19D2;
-  transform: translateY(-2px);
-}
-
-input[type="submit"]:active {
-  transform: translateY(1px);
+.error {
+  color: red;
+  margin-top: 10px;
 }
 </style>
