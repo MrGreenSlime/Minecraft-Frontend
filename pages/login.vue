@@ -3,15 +3,17 @@
     <div class="login">
       <h2 class="margin">Login</h2>
       <form @submit.prevent="handleSubmit" class="login-form">
-        <div class="login-form--field">
-          <input class="inputField"  v-model="email" id="email" type="email" name="email" required>
+<!--        <div class="work-request&#45;&#45;information">-->
+        <div class="login-form--field information-email">
+          <input class="inputField" v-model="email" id="email" type="email" name="email" required>
           <label for="email">Email</label>
         </div>
-        <div class="login-form--field">
+        <div class="login-form--field information-email">
           <input class="inputField" v-model="password" id="password" type="password" name="password" required>
           <label for="password">Password</label>
         </div>
         <input type="submit" value="Login">
+<!--        </div>-->
       </form>
       <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
       <p class="mt-4">
@@ -43,6 +45,11 @@ const handleSubmit = async () => {
 </script>
 
 <style scoped>
+
+.hidden {
+  display: none;
+}
+
 .margin {
   margin-bottom: 3rem;
 }
@@ -119,4 +126,14 @@ h2 {
   color: red;
   margin-top: 10px;
 }
+
+.inputField {
+  width: 100%;
+  padding: 10px;
+  margin: 20px 0;
+  border-radius: 3px;
+  border: 5px solid #ccc;
+}
+
+
 </style>

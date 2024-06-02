@@ -565,4 +565,45 @@ tbody tr:hover {
 .close-modal:hover {
   background-color: #870abd;
 }
+
+.close-modal:focus {
+  outline: none;
+}
+
+.close-modal:active {
+  transform: scale(0.98);
+}
+
+@media (max-width: 768px) {
+  .selection-container {
+    flex-direction: column;
+  }
+
+  .selection-box {
+    width: 100%;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 </style>

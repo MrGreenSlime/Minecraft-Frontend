@@ -14,7 +14,7 @@ export default defineNuxtConfig({
         css: {
             preprocessorOptions: {
                 scss: {
-                    additionalData: `@import "@/assets/css/base/_vars.sass"`
+                    additionalData: `@import "@/assets/css/base/_vars.scss"`
                 },
                 sass: {
                     additionalData: `@import "@/assets/css/base/_vars.sass"`

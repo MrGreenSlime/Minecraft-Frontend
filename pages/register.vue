@@ -3,15 +3,15 @@
     <div class="register">
       <h2>Register</h2>
       <form @submit.prevent="handleRegister" class="register-form">
-        <div class="register-form--field">
+        <div class="login-form--field">
           <input v-model="name" id="name" type="text" name="name" required>
           <label for="name">Name</label>
         </div>
-        <div class="register-form--field">
+        <div class="login-form--field">
           <input v-model="email" id="email" type="email" name="email" required>
           <label for="email">Email</label>
         </div>
-        <div class="register-form--field">
+        <div class="login-form--field">
           <input v-model="password" id="password" type="password" name="password" required>
           <label for="password">Password</label>
         </div>
@@ -119,4 +119,6 @@ h2 {
 .mt-4 {
   margin-top: 1rem;
 }
+
+
 </style>
