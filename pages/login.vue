@@ -3,7 +3,6 @@
     <div class="login">
       <h2 class="margin">Login</h2>
       <form @submit.prevent="handleSubmit" class="login-form">
-<!--        <div class="work-request&#45;&#45;information">-->
         <div class="login-form--field information-email">
           <input class="inputField" v-model="email" id="email" type="email" name="email" required>
           <label for="email">Email</label>
@@ -13,7 +12,6 @@
           <label for="password">Password</label>
         </div>
         <input type="submit" value="Login">
-<!--        </div>-->
       </form>
       <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
       <p class="mt-4">
@@ -39,13 +37,12 @@ const handleSubmit = async () => {
     await authStore.login(email.value, password.value)
     await router.push('/dashboard')
   } catch (error) {
-    alert('Login failed. Please check your credentials.')
+    errorMessage.value = 'Login failed. Please check your credentials.'
   }
 }
 </script>
 
 <style scoped>
-
 .hidden {
   display: none;
 }
@@ -78,7 +75,6 @@ const handleSubmit = async () => {
   border: 1px solid rgba(109, 103, 103, 0.18);
 }
 
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -93,22 +89,6 @@ const handleSubmit = async () => {
 h2 {
   margin-bottom: 1.5rem;
 }
-
-
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-
-
 
 .text-purple-600 {
   color: #b200ff;
@@ -131,9 +111,23 @@ h2 {
   width: 100%;
   padding: 10px;
   margin: 20px 0;
-  border-radius: 3px;
-  border: 5px solid #ccc;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  background: transparent;
+  color: white;
 }
 
+.inputField:focus {
+  outline: none;
+  border-bottom: 2px solid #b200ff;
+  background: rgba(0, 0, 0, 0.2);
+}
 
+label {
+  position: absolute;
+  top: -20px;
+  left: 0;
+  color: white;
+  font-size: 14px;
+}
 </style>

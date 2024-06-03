@@ -1,13 +1,14 @@
 <template>
   <header class="header">
-    <a class="header--logo" href="#0">
+      <nuxt-link to="/" class="text-purple-600 hover:underline header--logo">
+
       <img src="~/assets/img/logotest.png" alt="Global" style="aspect-ratio: 1/1; max-width: 4rem;" />
       <p class="btn-shine">J-Plot</p>
-    </a>
+      </nuxt-link>
     <button class="header--cta cta" @click="scrollToContact">Contact Us</button>
-    <div class="header--nav-toggle" @click="toggleNav">
-      <span></span>
-    </div>
+<!--    <div class="header&#45;&#45;nav-toggle" @click="toggleNav">-->
+<!--      <span></span>-->
+<!--    </div>-->
   </header>
 </template>
 

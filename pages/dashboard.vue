@@ -2,30 +2,20 @@
   <div class="dashboard-container">
     <div class="dashboard">
       <h1 class="text-3xl font-bold mb-4 text-center">Dashboard</h1>
-<!--      <p class="text-lg mb-6 text-center">Welcome to your dashboard!</p>-->
-
       <div v-if="loading" class="loading text-center">
         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         Loading...
       </div>
-
-      <div v-if="loading" class="loading text-center">
-        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-        Loading...
-      </div>
-      <div v-else class="max-w-4xl mx-auto">
+      <div v-else class="content">
         <!-- Select World and Select Colony side by side -->
         <div class="selection-container">
           <div class="selection-box">
-<!--            <h2 class="text-xl font-semibold mb-2">Select World</h2>-->
             <button @click="showWorldModal = true" class="w-full p-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
               Select World
             </button>
             <p v-if="selectedWorldName" class="selected-item mt-2 text-center">Selected World: {{ selectedWorldName }}</p>
           </div>
-
           <div class="selection-box">
-<!--            <h2 class="text-xl font-semibold mb-2">Select Colony</h2>-->
             <button @click="showColonyModal = true" class="w-full p-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
               Select Colony
             </button>
@@ -33,23 +23,21 @@
           </div>
         </div>
 
-        <div class="col-span-4 md:col-span-1 p-4 border border-gray-300 rounded bg-white shadow-lg margin">
-          <button class="w-full p-2 mb-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
-                  @click="completeAllRequests">Autocomplete All Requests
+        <div class="controls">
+          <button class="w-full p-2 mb-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700" @click="completeAllRequests">
+            Autocomplete All Requests
           </button>
-          <button class="w-full p-2 mb-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
-                  @click="completeTools">
+          <button class="w-full p-2 mb-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700" @click="completeTools">
             Autocomplete Tools
           </button>
-          <button class="w-full p-2 mb-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
-                  @click="completeArmor">
+          <button class="w-full p-2 mb-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700" @click="completeArmor">
             Autocomplete Armor
           </button>
         </div>
 
-        <div class="col-span-4 md:col-span-4 p-4 border border-gray-300 rounded bg-white shadow-lg">
+        <div class="table-container">
           <h2 class="text-xl font-semibold mb-4">Requests</h2>
-          <div class="overflow-x-auto max-h-64 overflow-y-auto">
+          <div class="table-wrapper">
             <table class="min-w-full divide-y divide-gray-200">
               <thead class="bg-gray-50">
               <tr>
@@ -79,7 +67,7 @@
           </div>
 
           <h2 class="text-xl font-semibold mb-4 mt-6">Builder Requests</h2>
-          <div class="overflow-x-auto max-h-64 overflow-y-auto">
+          <div class="table-wrapper">
             <table class="min-w-full divide-y divide-gray-200">
               <thead class="bg-gray-50">
               <tr>
@@ -97,7 +85,8 @@
                 <td class="px-6 py-4 whitespace-nowrap">
                   <button
                       :class="['w-full', 'p-2', 'rounded-lg', 'hover:bg-purple-700', builderRequest.autocomplete ? 'bg-green-600' : 'bg-purple-600', 'text-white']"
-                      @click="toggleAutocomplete(builderRequest.id)">
+                      @click="toggleAutocomplete(builderRequest.id)"
+                  >
                     {{ builderRequest.autocomplete ? 'True' : 'False' }}
                   </button>
                 </td>
@@ -107,33 +96,6 @@
                     {{ expandedRequest === builderRequest.id ? 'Close Info' : 'More Info' }}
                   </button>
                 </td>
-                <transition name="slide-fade">
-                  <tr v-if="expandedRequest === builderRequest.id" class="bg-gray-50">
-                    <td colspan="5" class="p-4">
-                      <div v-if="builderRequestDetails[builderRequest.id]" class="details-container">
-                        <p><strong>ID:</strong> {{ builderRequestDetails[builderRequest.id]?.id }}</p>
-                        <p><strong>Name:</strong> {{ builderRequestDetails[builderRequest.id]?.name }}</p>
-                        <p><strong>Autocomplete:</strong> {{ builderRequestDetails[builderRequest.id]?.autocomplete }}</p>
-                        <p><strong>Location:</strong> (X: {{ builderRequestDetails[builderRequest.id]?.location?.x }},
-                          Y: {{ builderRequestDetails[builderRequest.id]?.location?.y }}, Z:
-                          {{ builderRequestDetails[builderRequest.id]?.location?.z }})</p>
-                        <p><strong>Created At:</strong>
-                          {{ new Date(builderRequestDetails[builderRequest.id]?.created_at).toLocaleString() }}</p>
-                        <h3 class="font-semibold mt-2">Requests:</h3>
-                        <ul class="list-disc list-inside">
-                          <li v-for="req in builderRequestDetails[builderRequest.id]?.Requests" :key="req.id">
-                            <p><strong>Item:</strong> {{ req.item.displayName }} ({{ req.item.name }})</p>
-                            <p><strong>Status:</strong> {{ req.status }}</p>
-                            <p><strong>Needed:</strong> {{ req.needed }}</p>
-                            <p><strong>Available:</strong> {{ req.available }}</p>
-                            <p><strong>Delivering:</strong> {{ req.delivering }}</p>
-                          </li>
-                        </ul>
-                      </div>
-                      <div v-else>Loading...</div>
-                    </td>
-                  </tr>
-                </transition>
               </tr>
               </tbody>
             </table>
@@ -167,211 +129,263 @@
         <button @click="showColonyModal = false" class="close-modal">Close</button>
       </div>
     </div>
+
+    <!-- Request Details Modal -->
+    <div v-if="expandedRequest !== null" class="modal-overlay" @click.self="expandedRequest = null">
+      <div class="modal-content">
+        <div v-if="builderRequestDetails[expandedRequest]" class="details-container">
+          <p><strong>ID:</strong> {{ builderRequestDetails[expandedRequest]?.id }}</p>
+          <p><strong>Name:</strong> {{ builderRequestDetails[expandedRequest]?.name }}</p>
+          <p><strong>Autocomplete:</strong> {{ builderRequestDetails[expandedRequest]?.autocomplete }}</p>
+          <p><strong>Location:</strong> (X: {{ builderRequestDetails[expandedRequest]?.location?.x }},
+            Y: {{ builderRequestDetails[expandedRequest]?.location?.y }}, Z:
+            {{ builderRequestDetails[expandedRequest]?.location?.z }})</p>
+          <p><strong>Created At:</strong>
+            {{ new Date(builderRequestDetails[expandedRequest]?.created_at).toLocaleString() }}</p>
+          <h3 class="font-semibold mt-2">Requests:</h3>
+          <ul class="list-disc list-inside">
+            <li v-for="req in builderRequestDetails[expandedRequest]?.Requests" :key="req.id">
+              <p><strong>Item:</strong> {{ req.item.displayName }} ({{ req.item.name }})</p>
+              <p><strong>Status:</strong> {{ req.status }}</p>
+              <p><strong>Needed:</strong> {{ req.needed }}</p>
+              <p><strong>Available:</strong> {{ req.available }}</p>
+              <p><strong>Delivering:</strong> {{ req.delivering }}</p>
+            </li>
+          </ul>
+        </div>
+        <div v-else>Loading...</div>
+        <button @click="expandedRequest = null" class="close-modal">Close</button>
+
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
-import {ref, onMounted} from 'vue'
-import axios from 'axios'
-import {useAuthStore} from '@/stores/auth'
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+import { useAuthStore } from '@/stores/auth';
+import { useRouter } from 'vue-router';
 
-const authStore = useAuthStore()
-const token = authStore.token
+const authStore = useAuthStore();
+const token = authStore.token;
+const router = useRouter();
 
-const worlds = ref([])
-const colonies = ref([])
-const requests = ref([])
-const builderRequests = ref([])
-const selectedWorld = ref(null)
-const selectedWorldName = ref('')
-const selectedColony = ref(null)
-const selectedColonyName = ref('')
-const loading = ref(true)
-const expandedRequest = ref(null)
-const builderRequestDetails = ref({})
-const showWorldModal = ref(false)
-const showColonyModal = ref(false)
+const worlds = ref([]);
+const colonies = ref([]);
+const requests = ref([]);
+const builderRequests = ref([]);
+const selectedWorld = ref(null);
+const selectedWorldName = ref('');
+const selectedColony = ref(null);
+const selectedColonyName = ref('');
+const loading = ref(true);
+const expandedRequest = ref(null);
+const builderRequestDetails = ref({});
+const showWorldModal = ref(false);
+const showColonyModal = ref(false);
 
 const fetchWorlds = async () => {
   try {
     const response = await axios.get('https://minecraftapi.thibeprovost.ikdoeict.be/api/worlds', {
       headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-    worlds.value = response.data.data
-    console.log('Worlds:', response.data.data)
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    worlds.value = response.data.data;
+    console.log('Worlds:', response.data.data);
   } catch (error) {
-    console.error('Error fetching worlds:', error)
+    console.error('Error fetching worlds:', error);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 const fetchColonies = async () => {
-  if (!selectedWorld.value) return
-  loading.value = true
+  if (!selectedWorld.value) return;
+  loading.value = true;
   try {
     const response = await axios.get(`https://minecraftapi.thibeprovost.ikdoeict.be/api/worlds/${selectedWorld.value}`, {
       headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-    colonies.value = response.data.data.colonies
-    console.log('Colonies:', response.data.data.colonies)
-    selectedColony.value = null
-    selectedColonyName.value = ''
-    requests.value = []
-    builderRequests.value = []
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    colonies.value = response.data.data.colonies;
+    console.log('Colonies:', response.data.data.colonies);
+    selectedColony.value = null;
+    selectedColonyName.value = '';
+    requests.value = [];
+    builderRequests.value = [];
   } catch (error) {
-    console.error('Error fetching colonies:', error)
+    console.error('Error fetching colonies:', error);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 const fetchColonyData = async () => {
-  if (!selectedColony.value) return
-  loading.value = true
+  if (!selectedColony.value) return;
+  loading.value = true;
   try {
     const response = await axios.get(`https://minecraftapi.thibeprovost.ikdoeict.be/api/colonies/${selectedColony.value}`, {
       headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-    const data = response.data.data
-    requests.value = data.requests
-    builderRequests.value = data.builderRequests
-    console.log('Requests:', data.requests)
-    console.log('Builder Requests:', data.builderRequests)
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = response.data.data;
+    requests.value = data.requests;
+    builderRequests.value = data.builderRequests;
+    console.log('Requests:', data.requests);
+    console.log('Builder Requests:', data.builderRequests);
   } catch (error) {
-    console.error('Error fetching colony data:', error)
+    console.error('Error fetching colony data:', error);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 const fetchBuilderRequestDetails = async (builderRequestId) => {
-  console.log('Fetching builder request details:', builderRequestId)
+  console.log('Fetching builder request details:', builderRequestId);
   try {
     const response = await axios.get(`https://minecraftapi.thibeprovost.ikdoeict.be/api/builderrequests/${builderRequestId}`, {
       headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-    console.log('Builder Request Details:', response.data.data)
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log('Builder Request Details:', response.data.data);
     // Update the builderRequestDetails object with the fetched data
-    builderRequestDetails.value = {...builderRequestDetails.value, [builderRequestId]: response.data.data}
+    builderRequestDetails.value = { ...builderRequestDetails.value, [builderRequestId]: response.data.data };
   } catch (error) {
-    console.error('Error fetching builder request details:', error)
+    console.error('Error fetching builder request details:', error);
   }
-}
+};
 
 const toggleBuilderRequestInfo = (builderRequestId) => {
   if (expandedRequest.value === builderRequestId) {
-    expandedRequest.value = null
+    expandedRequest.value = null;
   } else {
-    expandedRequest.value = builderRequestId
+    expandedRequest.value = builderRequestId;
     if (!builderRequestDetails.value[builderRequestId]) {
-      fetchBuilderRequestDetails(builderRequestId)
+      fetchBuilderRequestDetails(builderRequestId);
     }
   }
-}
+};
 
 const toggleAutocomplete = async (builderRequestId) => {
   try {
-    await axios.put(`https://minecraftapi.thibeprovost.ikdoeict.be/api/builderrequests/${builderRequestId}`, {
-      'autocomplete': true
-    }, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
+    await axios.put(
+        `https://minecraftapi.thibeprovost.ikdoeict.be/api/builderrequests/${builderRequestId}`,
+        {
+          autocomplete: true,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+    );
     // Update the local state
-    const requestIndex = builderRequests.value.findIndex(request => request.id === builderRequestId)
+    const requestIndex = builderRequests.value.findIndex((request) => request.id === builderRequestId);
     if (requestIndex !== -1) {
-      builderRequests.value[requestIndex].autocomplete = true
+      builderRequests.value[requestIndex].autocomplete = true;
     }
-    alert('Builder request updated successfully.')
+    alert('Builder request updated successfully.');
   } catch (error) {
-    console.error('Error updating builder request:', error)
-    alert('Failed to update builder request.')
+    console.error('Error updating builder request:', error);
+    alert('Failed to update builder request.');
   }
-}
+};
 
 const completeAllRequests = async () => {
   try {
-    await axios.put(`https://minecraftapi.thibeprovost.ikdoeict.be/api/colonies/${selectedColony.value}`, {
-      'autocomplete': true
-    }, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-    alert('All requests completed successfully.')
+    await axios.put(
+        `https://minecraftapi.thibeprovost.ikdoeict.be/api/colonies/${selectedColony.value}`,
+        {
+          autocomplete: true,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+    );
+    alert('All requests completed successfully.');
   } catch (error) {
-    console.error('Error completing all requests:', error)
-    alert('Failed to complete all requests.')
+    console.error('Error completing all requests:', error);
+    alert('Failed to complete all requests.');
   }
-}
+};
 
 const completeTools = async () => {
   try {
-    await axios.put(`https://minecraftapi.thibeprovost.ikdoeict.be/api/colonies/${selectedColony.value}`, {
-      'autoTools': true
-    }, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-    alert('Tools requests completed successfully.')
+    await axios.put(
+        `https://minecraftapi.thibeprovost.ikdoeict.be/api/colonies/${selectedColony.value}`,
+        {
+          autoTools: true,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+    );
+    alert('Tools requests completed successfully.');
   } catch (error) {
-    console.error('Error completing tools requests:', error)
-    alert('Failed to complete tools requests.')
+    console.error('Error completing tools requests:', error);
+    alert('Failed to complete tools requests.');
   }
-}
+};
 
 const completeArmor = async () => {
   try {
-    await axios.put(`https://minecraftapi.thibeprovost.ikdoeict.be/api/colonies/${selectedColony.value}`, {
-      'autoArmor': true
-    }, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-    alert('Armor requests completed successfully.')
+    await axios.put(
+        `https://minecraftapi.thibeprovost.ikdoeict.be/api/colonies/${selectedColony.value}`,
+        {
+          autoArmor: true,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+    );
+    alert('Armor requests completed successfully.');
   } catch (error) {
-    console.error('Error completing armor requests:', error)
-    alert('Failed to complete armor requests.')
+    console.error('Error completing armor requests:', error);
+    alert('Failed to complete armor requests.');
   }
-}
+};
 
 const selectWorld = (worldId) => {
-  const world = worlds.value.find(w => w.id === worldId) || {}
-  selectedWorld.value = worldId
-  selectedWorldName.value = world.name || 'Unknown'
-  showWorldModal.value = false
-  fetchColonies()
-}
+  const world = worlds.value.find((w) => w.id === worldId) || {};
+  selectedWorld.value = worldId;
+  selectedWorldName.value = world.name || 'Unknown';
+  showWorldModal.value = false;
+  fetchColonies();
+};
 
 const selectColony = (colonyId) => {
-  const colony = colonies.value.find(c => c.id === colonyId) || {}
-  selectedColony.value = colonyId
-  selectedColonyName.value = colony.name || 'Unknown'
-  showColonyModal.value = false
-  fetchColonyData()
-}
+  const colony = colonies.value.find((c) => c.id === colonyId) || {};
+  selectedColony.value = colonyId;
+  selectedColonyName.value = colony.name || 'Unknown';
+  showColonyModal.value = false;
+  fetchColonyData();
+};
 
 onMounted(() => {
-  fetchWorlds()
-})
+  if (!authStore.token) {
+    router.push('/login');
+  } else {
+    fetchWorlds();
+  }
+});
 </script>
 
 <style scoped>
 .selection-container {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 1rem;
 }
 
 .selection-box {
@@ -398,6 +412,8 @@ onMounted(() => {
   backdrop-filter: blur(1px);
   -webkit-backdrop-filter: blur(6px);
   border: 1px solid rgba(109, 103, 103, 0.18);
+  max-height: 100%; /* Added for better scrollability */
+  overflow-y: auto; /* Added for better scrollability */
 }
 
 .dashboard-container {
@@ -405,11 +421,19 @@ onMounted(() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-top: 5rem;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
   padding-left: 2rem;
   padding-right: 2rem;
   background-size: cover;
   background-position: center;
+}
+
+@media (max-height: 1000px) {
+  .dashboard-container{
+    padding-top: 5rem;
+  }
 }
 
 .margin {
@@ -421,6 +445,30 @@ onMounted(() => {
   text-align: center;
   font-size: 1.5rem;
   color: #9a19d2;
+}
+
+.table-container {
+  margin-top: 1.5rem;
+}
+
+.table-wrapper {
+  max-height: 250px;
+  overflow-y: auto;
+  margin-bottom: 1.5rem;
+}
+
+/* Custom scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* Make the background transparent */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: grey; /* Set the color of the scrollbar thumb */
+  border-radius: 10px; /* Make the scrollbar thumb rounded */
 }
 
 h2 {
@@ -472,7 +520,8 @@ table {
   color: #fff;
 }
 
-th, td {
+th,
+td {
   padding: 8px;
   text-align: left;
   border-bottom: 1px solid #444;
@@ -486,11 +535,13 @@ tbody tr:hover {
   background-color: #444;
 }
 
-.slide-fade-enter-active, .slide-fade-leave-active {
+.slide-fade-enter-active,
+.slide-fade-leave-active {
   transition: all 0.5s ease;
 }
 
-.slide-fade-enter, .slide-fade-leave-to {
+.slide-fade-enter,
+.slide-fade-leave-to {
   transform: translateY(-10px);
   opacity: 0;
 }
@@ -499,15 +550,20 @@ tbody tr:hover {
   background-color: #1a1a1a;
   padding: 1rem;
   border-radius: 8px;
+  max-height: 300px;
+  overflow-y: auto;
 }
 
-.details-container p, .details-container ul {
+
+.details-container p,
+.details-container ul {
   margin: 0.5rem 0;
 }
 
 .details-container ul {
   padding-left: 1.2rem;
 }
+
 
 .modal-overlay {
   position: fixed;
@@ -519,6 +575,7 @@ tbody tr:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: auto;
 }
 
 .modal-content {
@@ -528,6 +585,8 @@ tbody tr:hover {
   text-align: center;
   max-width: 500px;
   width: 90%;
+  max-height: 80%;
+  overflow-y: auto;
 }
 
 .modal-content h2 {
@@ -544,7 +603,7 @@ tbody tr:hover {
   padding: 0.5rem 0;
   cursor: pointer;
   color: #ffffff;
-   transition: background-color 0.3s, color 0.3s;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .modal-content li:hover {
@@ -605,5 +664,4 @@ tbody tr:hover {
     transform: translateX(0);
   }
 }
-
 </style>

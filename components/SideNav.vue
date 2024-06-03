@@ -4,14 +4,33 @@
       <li><nuxt-link to="/" exact-active-class="is-active">Home</nuxt-link></li>
       <li><nuxt-link to="/manual" exact-active-class="is-active">Manual</nuxt-link></li>
       <li><nuxt-link to="/about" exact-active-class="is-active">About</nuxt-link></li>
-      <li><nuxt-link to="/login" exact-active-class="is-active">Login</nuxt-link></li>
+      <li v-if="authStore.token">
+        <a href="#" @click="handleLogout">Logout</a>
+      </li>
+      <li v-else>
+        <nuxt-link to="/login" exact-active-class="is-active">Login</nuxt-link>
+      </li>
       <li><nuxt-link to="/contact" exact-active-class="is-active">Contact us</nuxt-link></li>
     </ul>
   </nav>
 </template>
 
 <script setup>
-// No additional script needed
+import { ref, onMounted, computed } from 'vue';
+import {useAuthStore} from '@/stores/auth';
+import {useRouter} from 'vue-router';
+
+const authStore = useAuthStore();
+const router = useRouter();
+
+onMounted(() => {
+  authStore.initAuth();
+});
+
+const handleLogout = async () => {
+  authStore.logout();
+  await router.push('/');
+};
 </script>
 
 <style scoped>
@@ -21,7 +40,6 @@
   top: 0;
   height: 100%;
   width: 200px;
-  //background-color: rgba(0, 0, 0, 0.8);
   padding-top: 20px;
 }
 
