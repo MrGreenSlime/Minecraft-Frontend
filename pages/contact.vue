@@ -1,86 +1,44 @@
 <template>
   <div class="hire">
     <h2>What do you want to contact us about?</h2>
-    <form class="work-request">
+    <form class="work-request" @submit.prevent="sendRequest">
       <div class="work-request--options">
         <span class="options-a">
-          <input id="opt-1" type="checkbox" value="app design">
+          <input id="opt-1" type="checkbox" value="app design" v-model="selectedOptions">
           <label for="opt-1">
-            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                 viewBox="0 0 150 111" style="enable-background:new 0 0 150 111;" xml:space="preserve">
-              <g transform="translate(0.000000,111.000000) scale(0.100000,-0.100000)">
-                <path d="M950,705L555,310L360,505C253,612,160,700,155,700c-6,0-44-34-85-75l-75-75l278-278L550-5l475,475c261,261,475,480,475,485c0,13-132,145-145,145C1349,1100,1167,922,950,705z"/>
-              </g>
-            </svg>
             Frontend
           </label>
-          <input id="opt-2" type="checkbox" value="graphic design">
+          <input id="opt-2" type="checkbox" value="graphic design" v-model="selectedOptions">
           <label for="opt-2">
-            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                 viewBox="0 0 150 111" style="enable-background:new 0 0 150 111;" xml:space="preserve">
-              <g transform="translate(0.000000,111.000000) scale(0.100000,-0.100000)">
-                <path d="M950,705L555,310L360,505C253,612,160,700,155,700c-6,0-44-34-85-75l-75-75l278-278L550-5l475,475c261,261,475,480,475,485c0,13-132,145-145,145C1349,1100,1167,922,950,705z"/>
-              </g>
-            </svg>
             Graphic Design
           </label>
-          <input id="opt-3" type="checkbox" value="motion design">
+          <input id="opt-3" type="checkbox" value="motion design" v-model="selectedOptions">
           <label for="opt-3">
-            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                 viewBox="0 0 150 111" style="enable-background:new 0 0 150 111;" xml:space="preserve">
-              <g transform="translate(0.000000,111.000000) scale(0.100000,-0.100000)">
-                <path d="M950,705L555,310L360,505C253,612,160,700,155,700c-6,0-44-34-85-75l-75-75l278-278L550-5l475,475c261,261,475,480,475,485c0,13-132,145-145,145C1349,1100,1167,922,950,705z"/>
-              </g>
-            </svg>
             General Questions
           </label>
         </span>
         <span class="options-b">
-          <input id="opt-4" type="checkbox" value="ux design">
+          <input id="opt-4" type="checkbox" value="ux design" v-model="selectedOptions">
           <label for="opt-4">
-            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                 viewBox="0 0 150 111" style="enable-background:new 0 0 150 111;" xml:space="preserve">
-              <g transform="translate(0.000000,111.000000) scale(0.100000,-0.100000)">
-                <path d="M950,705L555,310L360,505C253,612,160,700,155,700c-6,0-44-34-85-75l-75-75l278-278L550-5l475,475c261,261,475,480,475,485c0,13-132,145-145,145C1349,1100,1167,922,950,705z"/>
-              </g>
-            </svg>
             Bug Report
           </label>
-          <input id="opt-5" type="checkbox" value="webdesign">
+          <input id="opt-5" type="checkbox" value="webdesign" v-model="selectedOptions">
           <label for="opt-5">
-            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                 viewBox="0 0 150 111" style="enable-background:new 0 0 150 111;" xml:space="preserve">
-              <g transform="translate(0.000000,111.000000) scale(0.100000,-0.100000)">
-                <path d="M950,705L555,310L360,505C253,612,160,700,155,700c-6,0-44-34-85-75l-75-75l278-278L550-5l475,475c261,261,475,480,475,485c0,13-132,145-145,145C1349,1100,1167,922,950,705z"/>
-              </g>
-            </svg>
             Backend
           </label>
-          <input id="opt-6" type="checkbox" value="Database design">
+          <input id="opt-6" type="checkbox" value="Database design" v-model="selectedOptions">
           <label for="opt-6">
-            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                 viewBox="0 0 150 111" style="enable-background:new 0 0 150 111;" xml:space="preserve">
-              <g transform="translate(0.000000,111.000000) scale(0.100000,-0.100000)">
-                <path d="M950,705L555,310L360,505C253,612,160,700,155,700c-6,0-44-34-85-75l-75-75l278-278L550-5l475,475c261,261,475,480,475,485c0,13-132,145-145,145C1349,1100,1167,922,950,705z"/>
-              </g>
-            </svg>
             Database design
           </label>
         </span>
       </div>
       <div class="work-request--information">
         <div class="information-name">
-          <input id="name" type="text" spellcheck="false">
+          <input id="name" type="text" v-model="name" spellcheck="false">
           <label for="name">Name</label>
         </div>
         <div class="information-email">
-          <input id="email" type="email" spellcheck="false">
+          <input id="email" type="email" v-model="email" spellcheck="false">
           <label for="email">Email</label>
         </div>
       </div>
@@ -91,7 +49,38 @@
 </template>
 
 <script setup>
-// No additional script needed
+import { ref } from 'vue';
+
+const name = ref('');
+const email = ref('');
+const selectedOptions = ref([]);
+
+const sendRequest = async () => {
+  try {
+    const response = await fetch('/api/send-email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: name.value,
+        email: email.value,
+        options: selectedOptions.value,
+      }),
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      alert('Email sent successfully');
+    } else {
+      alert('Failed to send email');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('An error occurred while sending the email');
+  }
+};
 </script>
 
 <style scoped>
