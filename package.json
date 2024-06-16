@@ -12,10 +12,12 @@
   "dependencies": {
     "@pinia/nuxt": "^0.5.1",
     "axios": "^1.7.2",
+    "html2canvas": "^1.4.1",
     "nuxt": "^3.11.2",
     "pinia": "^2.1.7",
     "pnpm": "^9.1.2",
     "sass": "^1.77.2",
+    "three": "^0.165.0",
     "vue": "^3.4.27",
     "vue-router": "^4.3.2",
     "vuex": "^4.0.2"

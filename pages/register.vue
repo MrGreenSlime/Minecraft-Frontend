@@ -2,7 +2,7 @@
   <div class="register-container">
     <div class="register">
       <h2 class="margin">Register</h2>
-      <form @submit.prevent="handleRegister" class="register-form">
+      <form @submit.prevent="handleRegister" class="login-form">
         <div class="login-form--field information-email">
           <label for="name">Name</label>
           <input class="inputField" v-model="name" id="name" type="text" name="name" required>
@@ -135,7 +135,7 @@ h2 {
 label {
   display: block;
   text-align: left;
-  margin: 10px 0;
+  margin: 0 0;
   color: white;
 }
 
