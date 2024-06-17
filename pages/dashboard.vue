@@ -187,7 +187,7 @@ const showColonyModal = ref(false);
 
 const fetchWorlds = async () => {
   try {
-    const response = await axios.get('https://minecraftapi.thibeprovost.ikdoeict.be/api/worlds', {
+    const response = await axios.get('http://78.23.6.113:8080/api/worlds', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -205,7 +205,7 @@ const fetchColonies = async () => {
   if (!selectedWorld.value) return;
   loading.value = true;
   try {
-    const response = await axios.get(`https://minecraftapi.thibeprovost.ikdoeict.be/api/worlds/${selectedWorld.value}`, {
+    const response = await axios.get(`http://78.23.6.113:8080/api/worlds/${selectedWorld.value}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -227,7 +227,7 @@ const fetchColonyData = async () => {
   if (!selectedColony.value) return;
   loading.value = true;
   try {
-    const response = await axios.get(`https://minecraftapi.thibeprovost.ikdoeict.be/api/colonies/${selectedColony.value}`, {
+    const response = await axios.get(`http://78.23.6.113:8080/api/colonies/${selectedColony.value}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -247,7 +247,7 @@ const fetchColonyData = async () => {
 const fetchBuilderRequestDetails = async (builderRequestId) => {
   console.log('Fetching builder request details:', builderRequestId);
   try {
-    const response = await axios.get(`https://minecraftapi.thibeprovost.ikdoeict.be/api/builderrequests/${builderRequestId}`, {
+    const response = await axios.get(`http://78.23.6.113:8080/api/builderrequests/${builderRequestId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -274,7 +274,7 @@ const toggleBuilderRequestInfo = (builderRequestId) => {
 const toggleAutocomplete = async (builderRequestId) => {
   try {
     await axios.put(
-        `https://minecraftapi.thibeprovost.ikdoeict.be/api/builderrequests/${builderRequestId}`,
+        `http://78.23.6.113:8080/api/builderrequests/${builderRequestId}`,
         {
           autocomplete: true,
         },
@@ -299,7 +299,7 @@ const toggleAutocomplete = async (builderRequestId) => {
 const completeAllRequests = async () => {
   try {
     await axios.put(
-        `https://minecraftapi.thibeprovost.ikdoeict.be/api/colonies/${selectedColony.value}`,
+        `http://78.23.6.113:8080/api/colonies/${selectedColony.value}`,
         {
           autocomplete: true,
         },
@@ -319,7 +319,7 @@ const completeAllRequests = async () => {
 const completeTools = async () => {
   try {
     await axios.put(
-        `https://minecraftapi.thibeprovost.ikdoeict.be/api/colonies/${selectedColony.value}`,
+        `http://78.23.6.113:8080/api/colonies/${selectedColony.value}`,
         {
           autoTools: true,
         },
@@ -339,7 +339,7 @@ const completeTools = async () => {
 const completeArmor = async () => {
   try {
     await axios.put(
-        `https://minecraftapi.thibeprovost.ikdoeict.be/api/colonies/${selectedColony.value}`,
+        `http://78.23.6.113:8080/api/colonies/${selectedColony.value}`,
         {
           autoArmor: true,
         },

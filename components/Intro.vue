@@ -2,7 +2,7 @@
   <div class="intro">
     <div class="intro--banner">
       <h1 style="text-shadow: 4px 4px 8px #000000;">Our <span style="color: #ad04f0;">BIG</span><br>minecolonies<br>integration app</h1>
-      <NuxtLink to="/manual" class="cta">
+      <a href="https://gitlab.com/ikdoeict/thibe.provost/project-mincraft/minecraft-app/uploads/2692884e674f31ac069bdd232192f434/MinecoloniesInstaller.zip" class="cta" download>
         Download Now
         <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
              viewBox="0 0 150 118" style="enable-background:new 0 0 150 118;" xml:space="preserve">
@@ -11,7 +11,7 @@
           </g>
         </svg>
         <span class="btn-background"></span>
-      </NuxtLink>
+      </a>
       <img src="~/assets/img/minespace.png" alt="Welcome">
     </div>
     <div class="intro--options">
@@ -64,7 +64,6 @@
 .cta:hover {
   background-color: #ad04f0;
   transition: background-color 4s ease;
-
 }
 
 .cta .btn-background {
@@ -86,7 +85,6 @@
 
 .cta:hover {
   color: white;
-
 }
 
 @keyframes background-slide {

@@ -36,7 +36,7 @@ const router = useRouter()
 
 const handleRegister = async () => {
   try {
-    const response = await axios.post('https://minecraftapi.thibeprovost.ikdoeict.be/api/register', {
+    const response = await axios.post('http://78.23.6.113:8080/api/register', {
       name: name.value,
       email: email.value,
       password: password.value,

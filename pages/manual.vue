@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="content">
+    <div id="content" class="scrollable-content">
       <h1>Handleiding</h1>
       <h2>Minecraft:</h2>
       <p>Creëer een modpack met de benodigde mods: MineColonies, CC: Tweaked, Advanced Peripherals en Applied Energistics.</p>
@@ -122,8 +122,6 @@
     <canvas ref="canvas" v-show="show3D"></canvas>
   </div>
 </template>
-
-
 
 <script lang="ts">
 import { defineComponent, onMounted, ref, watch } from 'vue';
@@ -412,11 +410,10 @@ export default defineComponent({
 });
 </script>
 
-
 <style scoped>
 body {
   margin: 0;
-  overflow: hidden;  /* Disable scrolling */
+  overflow: hidden; /* Disable scrolling */
 }
 canvas {
   display: block;
@@ -431,9 +428,11 @@ canvas {
   padding: 20px;
   max-width: 800px;
   margin: auto;
+  overflow-y: auto;
+  height: 90vh; /* Adjust this value based on your needs */
 }
 h1, h2, h3 {
-  color: #f2b233;
+  color: #a81be7;
 }
 a {
   color: #39baec;
@@ -465,6 +464,7 @@ img {
   flex: 1;
   min-width: 200px;
   margin: 10px;
+  text-align: center;
 }
 .figure-caption {
   text-align: center;

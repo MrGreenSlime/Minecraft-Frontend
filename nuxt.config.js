@@ -21,5 +21,8 @@ export default defineNuxtConfig({
                 }
             }
         }
-    }
+    },
+    plugins: [
+        '~/plugins/initAuth.js'
+    ]
 })

@@ -21,7 +21,7 @@ export const useAuthStore = defineStore('auth', {
         },
         async login(email, password) {
             try {
-                const response = await fetch('https://minecraftapi.thibeprovost.ikdoeict.be/api/login', {
+                const response = await fetch('http://78.23.6.113:8080/api/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
