@@ -59,7 +59,7 @@
       </div>
       <hr>
       <h3>Programma:</h3>
-      <p>Surf naar <a href="https://j-plot.lucavandenweghe.ikdoeict.be">https://j-plot.lucavandenweghe.ikdoeict.be</a>
+      <p>Surf naar <a href="http://78.23.6.113">https://j-plot.be</a>
       </p>
       <div class="figure-text">
         <p>Klik op de Download Now knop (Figuur 23)</p>
