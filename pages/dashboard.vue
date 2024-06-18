@@ -370,7 +370,7 @@ const toggleAutocomplete = async (builderRequestId) => {
 
     // Update the local state
     builderRequest.autocomplete = newAutocompleteState;
-    alert('Builder request updated successfully.');
+    // alert('Builder request updated successfully.');
   } catch (error) {
     console.error('Error updating builder request:', error);
     alert('Failed to update builder request.');
@@ -385,7 +385,7 @@ const completeAllRequests = async () => {
         {headers: {Authorization: `Bearer ${token}`}}
     );
     await fetchColonyData(); // Refetch colony data to update the UI
-    alert('All requests completed successfully.');
+    // alert('All requests completed successfully.');
   } catch (error) {
     console.error('Error completing all requests:', error);
     alert('Failed to complete all requests.');
@@ -403,7 +403,7 @@ const completeTools = async () => {
     );
 
     autoTools.value = newAutoToolsState;
-    alert(`Tools requests ${newAutoToolsState ? 'enabled' : 'disabled'} successfully.`);
+    // alert(`Tools requests ${newAutoToolsState ? 'enabled' : 'disabled'} successfully.`);
   } catch (error) {
     console.error('Error completing tools requests:', error);
     alert('Failed to complete tools requests.');
@@ -421,7 +421,7 @@ const completeArmor = async () => {
     );
 
     autoArmor.value = newAutoArmorState;
-    alert(`Armor requests ${newAutoArmorState ? 'enabled' : 'disabled'} successfully.`);
+    // alert(`Armor requests ${newAutoArmorState ? 'enabled' : 'disabled'} successfully.`);
   } catch (error) {
     console.error('Error completing armor requests:', error);
     alert('Failed to complete armor requests.');
