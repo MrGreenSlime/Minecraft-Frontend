@@ -259,7 +259,7 @@ export default defineComponent({
       }
 
       // Animation variables
-      let steveSpeed = 0.3;
+      let steveSpeed = 0.4;
       let carryingCube: THREE.Mesh | null = null;
       let keys: { [key: string]: boolean } = {};
       const planeWidth = 2000;
@@ -296,6 +296,23 @@ export default defineComponent({
           steve.rotation.y = Math.PI / 2;
         }
         if (keys['ArrowRight']) {
+          moveX = steveSpeed;
+          steve.rotation.y = -Math.PI / 2;
+        }
+
+        if (keys['KeyW']) {
+          moveZ = -steveSpeed;
+          steve.rotation.y = 0;
+        }
+        if (keys['KeyS']) {
+          moveZ = steveSpeed;
+          steve.rotation.y = Math.PI;
+        }
+        if (keys['KeyA']) {
+          moveX = -steveSpeed;
+          steve.rotation.y = Math.PI / 2;
+        }
+        if (keys['KeyD']) {
           moveX = steveSpeed;
           steve.rotation.y = -Math.PI / 2;
         }
