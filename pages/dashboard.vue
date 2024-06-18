@@ -31,10 +31,13 @@
 
         <!-- Controls and Tables -->
         <div v-if="selectedColonyName" class="controls">
-          <button class="w-full p-2 mb-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
-                  @click="completeAllRequests">
-            Autocomplete All Requests
+          <button
+              :class="['w-full', 'p-2', 'mb-2', 'rounded-lg', autoCompleteAll ? 'bg-green-600' : 'bg-purple-600', 'text-white', 'hover:bg-purple-700']"
+              @click="completeAllRequests"
+          >
+            {{ autoCompleteAll ? 'Disable Autocomplete All Requests' : 'Autocomplete All Requests' }}
           </button>
+
           <button
               :class="['w-full', 'p-2', 'mb-2', 'rounded-lg', autoTools ? 'bg-green-600' : 'bg-purple-600', 'text-white', 'hover:bg-purple-700']"
               @click="completeTools">
@@ -262,6 +265,7 @@ const playerItems = ref([]);
 const colonyItems = ref([]);
 const autoTools = ref(false);
 const autoArmor = ref(false);
+const autoCompleteAll = ref(false);
 
 const fetchWorlds = async () => {
   try {
@@ -379,13 +383,15 @@ const toggleAutocomplete = async (builderRequestId) => {
 
 const completeAllRequests = async () => {
   try {
+    const newAutoCompleteAllState = !autoCompleteAll.value;
+
     await axios.put(
         `http://78.23.6.113:8080/api/colonies/${selectedColony.value}`,
-        {autocomplete: true},
+        {autocomplete: false},
         {headers: {Authorization: `Bearer ${token}`}}
     );
-    await fetchColonyData(); // Refetch colony data to update the UI
-    // alert('All requests completed successfully.');
+    await fetchColonyData();
+    autoCompleteAll.value = newAutoCompleteAllState;
   } catch (error) {
     console.error('Error completing all requests:', error);
     alert('Failed to complete all requests.');
