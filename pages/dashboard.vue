@@ -821,4 +821,13 @@ tbody tr:hover {
   text-align: center;
 }
 
+//i want it so when you put in in fullscreen you get a margin top with 5rem
+
+@media (max-height: 1000px) {
+  .dashboard {
+    margin-top: 5rem;
+  }
+}
+
+
 </style>
