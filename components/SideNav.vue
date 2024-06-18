@@ -8,24 +8,18 @@
         <a href="#" @click="handleLogout">Logout</a>
       </li>
       <li v-else>
-        <nuxt-link to="/login" exact-active-class="is-active">Login</nuxt-link>
-      </li>
+        <nuxt-link to="/login" exact-active-class="is-active">Login</nuxt-link></li>
       <li><nuxt-link to="/contact" exact-active-class="is-active">Contact us</nuxt-link></li>
     </ul>
   </nav>
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
-import {useAuthStore} from '@/stores/auth';
-import {useRouter} from 'vue-router';
+import { useAuthStore } from '@/stores/auth';
+import { useRouter } from 'vue-router';
 
 const authStore = useAuthStore();
 const router = useRouter();
-
-onMounted(() => {
-  authStore.initAuth();
-});
 
 const handleLogout = async () => {
   authStore.logout();

@@ -15,7 +15,7 @@
               Select World
             </button>
             <p v-if="selectedWorldName" class="selected-item mt-2 text-center">Selected World: {{
-                selectedWorldName
+                displayWorldName
               }}</p>
           </div>
           <div v-if="selectedWorldName" class="selection-box">
@@ -140,7 +140,7 @@
         <h2>Select World</h2>
         <ul>
           <li v-for="world in worlds" :key="world.id" @click="selectWorld(world.id)">
-            {{ world.name }}
+            {{ formatWorldName(world.name) }}
           </li>
         </ul>
         <button @click="showWorldModal = false" class="close-modal">Close</button>
@@ -472,6 +472,17 @@ const viewPlayerStorage = async () => {
 
 const viewColonyStorage = async () => {
   showColonyStorageModal.value = true;
+};
+
+const displayWorldName = computed(() => {
+  if (!selectedWorldName.value) return '';
+  const parts = selectedWorldName.value.split('-saves-');
+  return parts.length > 1 ? parts[1] : selectedWorldName.value;
+});
+
+const formatWorldName = (name) => {
+  const parts = name.split('-saves-');
+  return parts.length > 1 ? parts[1] : name;
 };
 
 const selectWorld = (worldId) => {
