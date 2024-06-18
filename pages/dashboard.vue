@@ -504,6 +504,7 @@ onMounted(() => {
   border: 1px solid rgba(109, 103, 103, 0.18);
   max-height: 100%; /* Added for better scrollability */
   overflow-y: auto; /* Added for better scrollability */
+  margin-bottom: 9rem;
 }
 
 .dashboard-container {
