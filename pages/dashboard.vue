@@ -14,28 +14,35 @@
                     class="w-full p-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
               Select World
             </button>
-            <p v-if="selectedWorldName" class="selected-item mt-2 text-center">Selected World: {{ selectedWorldName }}</p>
+            <p v-if="selectedWorldName" class="selected-item mt-2 text-center">Selected World: {{
+                selectedWorldName
+              }}</p>
           </div>
-          <div class="selection-box">
+          <div v-if="selectedWorldName" class="selection-box">
             <button @click="showColonyModal = true"
                     class="w-full p-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
               Select Colony
             </button>
-            <p v-if="selectedColonyName" class="selected-item mt-2 text-center">Selected Colony: {{ selectedColonyName }}</p>
+            <p v-if="selectedColonyName" class="selected-item mt-2 text-center">Selected Colony: {{
+                selectedColonyName
+              }}</p>
           </div>
         </div>
 
-        <div class="controls">
+        <!-- Controls and Tables -->
+        <div v-if="selectedColonyName" class="controls">
           <button class="w-full p-2 mb-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
                   @click="completeAllRequests">
             Autocomplete All Requests
           </button>
-          <button :class="['w-full', 'p-2', 'mb-2', 'rounded-lg', autoTools ? 'bg-green-600' : 'bg-purple-600', 'text-white', 'hover:bg-purple-700']"
-                  @click="completeTools">
+          <button
+              :class="['w-full', 'p-2', 'mb-2', 'rounded-lg', autoTools ? 'bg-green-600' : 'bg-purple-600', 'text-white', 'hover:bg-purple-700']"
+              @click="completeTools">
             {{ autoTools ? 'Disable Autocomplete Tools' : 'Autocomplete Tools' }}
           </button>
-          <button :class="['w-full', 'p-2', 'mb-2', 'rounded-lg', autoArmor ? 'bg-green-600' : 'bg-purple-600', 'text-white', 'hover:bg-purple-700']"
-                  @click="completeArmor">
+          <button
+              :class="['w-full', 'p-2', 'mb-2', 'rounded-lg', autoArmor ? 'bg-green-600' : 'bg-purple-600', 'text-white', 'hover:bg-purple-700']"
+              @click="completeArmor">
             {{ autoArmor ? 'Disable Autocomplete Armor' : 'Autocomplete Armor' }}
           </button>
           <button class="w-full p-2 mb-2 bg-red-600 text-white rounded-lg hover:bg-red-700 red"
@@ -52,7 +59,7 @@
           </button>
         </div>
 
-        <div class="table-container">
+        <div v-if="selectedColonyName" class="table-container">
           <h2 class="text-xl font-semibold mb-4">Requests</h2>
           <div class="table-wrapper">
             <table class="min-w-full divide-y divide-gray-200">
@@ -60,12 +67,15 @@
               <tr>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description
+                </th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Target</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">State</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Count</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Min Count</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Min Count
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At
+                </th>
               </tr>
               </thead>
               <tbody class="bg-white divide-y divide-gray-200">
@@ -90,8 +100,11 @@
               <tr>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Autocomplete</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Autocomplete
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At
+                </th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
               </tr>
               </thead>
