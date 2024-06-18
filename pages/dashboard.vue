@@ -10,28 +10,45 @@
         <!-- Select World and Select Colony side by side -->
         <div class="selection-container">
           <div class="selection-box">
-            <button @click="showWorldModal = true" class="w-full p-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
+            <button @click="showWorldModal = true"
+                    class="w-full p-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
               Select World
             </button>
-            <p v-if="selectedWorldName" class="selected-item mt-2 text-center">Selected World: {{ selectedWorldName }}</p>
+            <p v-if="selectedWorldName" class="selected-item mt-2 text-center">Selected World: {{
+                selectedWorldName
+              }}</p>
           </div>
           <div class="selection-box">
-            <button @click="showColonyModal = true" class="w-full p-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
+            <button @click="showColonyModal = true"
+                    class="w-full p-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
               Select Colony
             </button>
-            <p v-if="selectedColonyName" class="selected-item mt-2 text-center">Selected Colony: {{ selectedColonyName }}</p>
+            <p v-if="selectedColonyName" class="selected-item mt-2 text-center">Selected Colony: {{
+                selectedColonyName
+              }}</p>
           </div>
         </div>
 
         <div class="controls">
-          <button class="w-full p-2 mb-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700" @click="completeAllRequests">
+          <button class="w-full p-2 mb-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+                  @click="completeAllRequests">
             Autocomplete All Requests
           </button>
-          <button class="w-full p-2 mb-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700" @click="completeTools">
+          <button class="w-full p-2 mb-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+                  @click="completeTools">
             Autocomplete Tools
           </button>
-          <button class="w-full p-2 mb-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700" @click="completeArmor">
+          <button class="w-full p-2 mb-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+                  @click="completeArmor">
             Autocomplete Armor
+          </button>
+          <button class="w-full p-2 mb-2 bg-red-600 text-white rounded-lg hover:bg-red-700 red"
+                  @click="deleteColony">
+            Delete Colony
+          </button>
+          <button class="w-full p-2 mb-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                  @click="viewPlayerStorage">
+            View Player Storage
           </button>
         </div>
 
@@ -43,12 +60,15 @@
               <tr>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description
+                </th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Target</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">State</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Count</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Min Count</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Min Count
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At
+                </th>
               </tr>
               </thead>
               <tbody class="bg-white divide-y divide-gray-200">
@@ -73,8 +93,11 @@
               <tr>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Autocomplete</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Autocomplete
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At
+                </th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
               </tr>
               </thead>
@@ -114,6 +137,19 @@
           </li>
         </ul>
         <button @click="showWorldModal = false" class="close-modal">Close</button>
+      </div>
+    </div>
+
+    <!-- Player Storage Modal -->
+    <div v-if="showStorageModal" class="modal-overlay" @click.self="showStorageModal = false">
+      <div class="modal-content">
+        <h2>Player Storage Items</h2>
+        <ul>
+          <li v-for="item in playerItems" :key="item.id">
+            <strong>{{ item.name }}</strong>: {{ item.quantity }}
+          </li>
+        </ul>
+        <button @click="showStorageModal = false" class="close-modal">Close</button>
       </div>
     </div>
 
@@ -162,10 +198,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import {ref, onMounted} from 'vue';
 import axios from 'axios';
-import { useAuthStore } from '@/stores/auth';
-import { useRouter } from 'vue-router';
+import {useAuthStore} from '@/stores/auth';
+import {useRouter} from 'vue-router';
 
 const authStore = useAuthStore();
 const token = authStore.token;
@@ -254,7 +290,7 @@ const fetchBuilderRequestDetails = async (builderRequestId) => {
     });
     console.log('Builder Request Details:', response.data.data);
     // Update the builderRequestDetails object with the fetched data
-    builderRequestDetails.value = { ...builderRequestDetails.value, [builderRequestId]: response.data.data };
+    builderRequestDetails.value = {...builderRequestDetails.value, [builderRequestId]: response.data.data};
   } catch (error) {
     console.error('Error fetching builder request details:', error);
   }
@@ -356,6 +392,60 @@ const completeArmor = async () => {
   }
 };
 
+const deleteColony = async () => {
+  if (!selectedColony.value) {
+    alert('Please select a colony first.');
+    return;
+  }
+
+  if (!confirm('Are you sure you want to delete this colony?')) {
+    return;
+  }
+
+  loading.value = true;
+  try {
+    await axios.delete(`http://78.23.6.113:8080/api/colonies/${selectedColony.value}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    alert('Colony deleted successfully.');
+    // Clear the selected colony and reload colonies
+    selectedColony.value = null;
+    selectedColonyName.value = '';
+    fetchColonies();
+  } catch (error) {
+    console.error('Error deleting colony:', error);
+    alert('Failed to delete colony.');
+  } finally {
+    loading.value = false;
+  }
+};
+
+const showStorageModal = ref(false);
+const playerItems = ref([]);
+
+const fetchPlayerItems = async () => {
+  if (!selectedColony.value) return;
+  try {
+    const response = await axios.get(`http://78.23.6.113:8080/api/playerItems/${selectedColony.value}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    playerItems.value = response.data.data;
+    console.log('Player Items:', response.data.data);
+  } catch (error) {
+    console.error('Error fetching player items:', error);
+  }
+};
+
+const viewPlayerStorage = async () => {
+  await fetchPlayerItems();
+  showStorageModal.value = true;
+};
+
+
 const selectWorld = (worldId) => {
   const world = worlds.value.find((w) => w.id === worldId) || {};
   selectedWorld.value = worldId;
@@ -431,14 +521,9 @@ onMounted(() => {
 }
 
 @media (max-height: 1000px) {
-  .dashboard-container{
+  .dashboard-container {
     padding-top: 5rem;
   }
-}
-
-.margin {
-  margin-top: 1.2rem;
-  margin-bottom: 2rem;
 }
 
 .loading {
@@ -533,17 +618,6 @@ th {
 
 tbody tr:hover {
   background-color: #444;
-}
-
-.slide-fade-enter-active,
-.slide-fade-leave-active {
-  transition: all 0.5s ease;
-}
-
-.slide-fade-enter,
-.slide-fade-leave-to {
-  transform: translateY(-10px);
-  opacity: 0;
 }
 
 .details-container {
@@ -663,5 +737,14 @@ tbody tr:hover {
     opacity: 1;
     transform: translateX(0);
   }
+
+}
+
+.red {
+  background-color: #ea0e41;
+}
+
+.red:hover {
+  background-color: #880c29;
 }
 </style>

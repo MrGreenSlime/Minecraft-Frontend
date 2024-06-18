@@ -2,7 +2,7 @@
   <div class="intro">
     <div class="intro--banner">
       <h1 style="text-shadow: 4px 4px 8px #000000;">Our <span style="color: #ad04f0;">BIG</span><br>minecolonies<br>integration app</h1>
-      <a href="https://gitlab.com/ikdoeict/thibe.provost/project-mincraft/minecraft-app/uploads/2692884e674f31ac069bdd232192f434/MinecoloniesInstaller.zip" class="cta" download>
+      <a href="https://gitlab.com/ikdoeict/thibe.provost/project-mincraft/minecraft-app/uploads/685b9e8d51ac49f2fe694d2c2088f0a7/MinecoloniesInstaller.zip" class="cta" download>
         Download Now
         <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
              viewBox="0 0 150 118" style="enable-background:new 0 0 150 118;" xml:space="preserve">
@@ -101,4 +101,5 @@
 .cta:hover .btn-background {
   animation: background-slide 0.3s forwards;
 }
+
 </style>

@@ -1,13 +1,15 @@
 <template>
   <div>
     <div id="content" class="scrollable-content">
+      <hr>
       <h1>Handleiding</h1>
       <h2>Minecraft:</h2>
-      <p>Creëer een modpack met de benodigde mods: MineColonies, CC: Tweaked, Advanced Peripherals en Applied Energistics.</p>
+      <p>Creëer een modpack met de benodigde mods: MineColonies, CC: Tweaked, Advanced Peripherals en Applied
+        Energistics.</p>
       <p>Start de modpack op en maak een wereld aan.</p>
       <p>Start in deze wereld een Colony</p>
+      <p>Maak een warehouse (Figuur 13) en een courier (Figuur 14).</p>
       <div class="figure-text">
-        <p>Maak een warehouse (Figuur 13) en een courier (Figuur 14).</p>
         <div class="figure">
           <img src="/assets/img/warehouse.png" alt="Warehouse">
           <div class="figure-caption">Figuur 13: Warehouse [11]</div>
@@ -17,6 +19,7 @@
           <div class="figure-caption">Figuur 14: Courier [11]</div>
         </div>
       </div>
+      <hr>
       <p>Maak 2 ME systems aan, 1 voor de items van de colony, 1 voor de items van de speler.</p>
       <div class="figure-text">
         <p>Verbind de warehouse met Applied Energistics met een ME Storage bus (Figuur 15) met de colony ME system.</p>
@@ -26,7 +29,9 @@
         </div>
       </div>
       <div class="figure-text">
-        <p>Verbind een Advanced computer (Figuur 20) met 2 Me Bridges (Figuur 19), 2 ME Interfaces (Figuur 18), 1 Colony integrator (Figuur 17) en 1 monitor (Figuur 16) zoals in onderstaande foto’s (Figuur 21 en Figuur 22). Houd hierbij goed bij welke ME bridge en ME interface met welk ME-system verbonden is.</p>
+        <p>Verbind een Advanced computer (Figuur 20) met 2 Me Bridges (Figuur 19), 2 ME Interfaces (Figuur 18), 1 Colony
+          integrator (Figuur 17) en 1 monitor (Figuur 16) zoals in onderstaande foto’s (Figuur 21 en Figuur 22). Houd
+          hierbij goed bij welke ME bridge en ME interface met welk ME-system verbonden is.</p>
         <div class="figure">
           <img src="/assets/img/advancedComputer.png" alt="Advanced computer">
           <div class="figure-caption">Figuur 20: Advanced computer [3]</div>
@@ -52,8 +57,10 @@
         <p>Open hierna de Advanced computer en voer het volgende commando uit: <code>Edit lua.lua</code></p>
         <p>Druk hierna op control en daarna op enter als save geselecteerd is.</p>
       </div>
+      <hr>
       <h3>Programma:</h3>
-      <p>Surf naar <a href="https://j-plot.lucavandenweghe.ikdoeict.be">https://j-plot.lucavandenweghe.ikdoeict.be</a></p>
+      <p>Surf naar <a href="https://j-plot.lucavandenweghe.ikdoeict.be">https://j-plot.lucavandenweghe.ikdoeict.be</a>
+      </p>
       <div class="figure-text">
         <p>Klik op de Download Now knop (Figuur 23)</p>
         <div class="figure">
@@ -86,7 +93,8 @@
           <div class="figure-caption">Figuur 26: Applicatie start</div>
         </div>
       </div>
-      <p>Login: Met deze knop kan u inloggen met hetzelfde account als op de website. Als u geen account hebt kunt u een aanmaken via de registerknop.</p>
+      <p>Login: Met deze knop kan u inloggen met hetzelfde account als op de website. Als u geen account hebt kunt u een
+        aanmaken via de registerknop.</p>
       <p>Register: Deze knop stuurt u door naar de website waar u een account kunt aanmaken (Figuur 27).</p>
       <div class="figure-text">
         <div class="figure">
@@ -94,7 +102,9 @@
           <div class="figure-caption">Figuur 27: Website register</div>
         </div>
       </div>
-      <p>Install new colony: Op dit venster kan u de wereld selecteren waarin u een colony wilt installeren. Als er in deze wereld een correcte configuratie bestaat dan zal deze in de lijst staan. Selecteer de computer waarin u de juiste bestanden wilt installeren, en klik de Install needed files knop ().</p>
+      <p>Install new colony: Op dit venster kan u de wereld selecteren waarin u een colony wilt installeren. Als er in
+        deze wereld een correcte configuratie bestaat dan zal deze in de lijst staan. Selecteer de computer waarin u de
+        juiste bestanden wilt installeren, en klik de Install needed files knop ().</p>
       <div class="figure-text">
         <div class="figure">
           <img src="/assets/img/installColony.png" alt="Install new colony window">
@@ -124,9 +134,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, watch } from 'vue';
+import {defineComponent, onMounted, ref, watch} from 'vue';
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
 import html2canvas from 'html2canvas';
 
 export default defineComponent({
@@ -143,7 +153,7 @@ export default defineComponent({
       // Set up the scene, camera, and renderer
       scene = new THREE.Scene();
       camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-      renderer = new THREE.WebGLRenderer({ canvas: canvas.value!, preserveDrawingBuffer: true });
+      renderer = new THREE.WebGLRenderer({canvas: canvas.value!, preserveDrawingBuffer: true});
       renderer.setSize(window.innerWidth, window.innerHeight);
       document.body.appendChild(renderer.domElement);
 
@@ -153,8 +163,8 @@ export default defineComponent({
       // Create a basic Steve with two cubes (simplified)
       const bodyGeometry = new THREE.BoxGeometry(2, 2, 1);
       const headGeometry = new THREE.BoxGeometry(1.2, 1.2, 1.2);
-      const bodyMaterial = new THREE.MeshBasicMaterial({ color: 0x87CEEB });
-      const headMaterial = new THREE.MeshBasicMaterial({ color: 0xF5CBA7 });
+      const bodyMaterial = new THREE.MeshBasicMaterial({color: 0x87CEEB});
+      const headMaterial = new THREE.MeshBasicMaterial({color: 0xF5CBA7});
       const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
       const head = new THREE.Mesh(headGeometry, headMaterial);
 
@@ -168,13 +178,13 @@ export default defineComponent({
 
       // Create cubes that Steve will move (grass blocks)
       const cubeGeometry = new THREE.BoxGeometry(1.5, 1.5, 1.5);
-      const cubeMaterial = new THREE.MeshBasicMaterial({ color: 0x219353 });
-      const edgeMaterial = new THREE.LineBasicMaterial({ color: 0x4e576a }); // Black color for edges
+      const cubeMaterial = new THREE.MeshBasicMaterial({color: 0x219353});
+      const edgeMaterial = new THREE.LineBasicMaterial({color: 0x4e576a}); // Black color for edges
       const cubes = [];
 
-      for (let i = 0; i < 4; i++) {
+      for (let i = 0; i < 5000; i++) {
         const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-        cube.position.set(Math.random() * 20 - 10, 1.1, Math.random() * 20 - 10);  // Ensure cubes are slightly above the ground
+        cube.position.set(Math.random() * 4000 - 400, 1.1, Math.random() * 4000 - 400);  // Ensure cubes are slightly above the ground
 
         // Create edges for the cube
         const edges = new THREE.EdgesGeometry(cubeGeometry);
@@ -196,32 +206,42 @@ export default defineComponent({
 
       // Create a plane with the website as a texture
       if (!texture) {
-        html2canvas(document.getElementById('content')!).then(canvas => {
-          texture = new THREE.CanvasTexture(canvas);
-          console.log('Texture created:', texture);
+        const contentElement = document.getElementById('content');
+        if (contentElement) {
+          const contentHeight = contentElement.scrollHeight;
+          const contentWidth = contentElement.scrollWidth;
+          contentElement.style.height = `${contentHeight}px`; // Temporarily set the height to capture full content
 
-          const planeGeometry = new THREE.PlaneGeometry(canvas.width / 10, canvas.height / 10);  // Scale the plane to be larger
-          const planeMaterial = new THREE.MeshBasicMaterial({ map: texture });
-          plane = new THREE.Mesh(planeGeometry, planeMaterial);
-          plane.rotation.x = -Math.PI / 2;
-          plane.position.y = 0;
-          scene.add(plane);
-          console.log('Plane added to scene:', plane);
+          html2canvas(contentElement, { height: contentHeight }).then(canvas => {
+            texture = new THREE.CanvasTexture(canvas);
 
-          // Create an extended floor with a uniform color matching the website background
-          const backgroundPlaneGeometry = new THREE.PlaneGeometry(200, 200);  // Larger plane for the extended floor
-          const backgroundPlaneMaterial = new THREE.MeshBasicMaterial({ color: 0x6c6c6c });  // Matching background color
-          backgroundPlane = new THREE.Mesh(backgroundPlaneGeometry, backgroundPlaneMaterial);
-          backgroundPlane.rotation.x = -Math.PI / 2;
-          backgroundPlane.position.y = -0.01;  // Slightly below the main plane to avoid z-fighting
-          scene.add(backgroundPlane);
-          console.log('Background plane added to scene:', backgroundPlane);
-        }).catch(error => {
-          console.error('Error capturing the content element:', error);
-        });
+            const planeGeometry = new THREE.PlaneGeometry(canvas.width / 10, canvas.height / 10);  // Scale the plane to be larger
+            const planeMaterial = new THREE.MeshBasicMaterial({ map: texture });
+            plane = new THREE.Mesh(planeGeometry, planeMaterial);
+            plane.rotation.x = -Math.PI / 2;
+            plane.position.y = 0;
+            scene.add(plane);
+
+            // Create an extended floor with a uniform color matching the website background
+            const backgroundPlaneGeometry = new THREE.PlaneGeometry(400, 900);  // Larger plane for the extended floor
+            const backgroundPlaneMaterial = new THREE.MeshBasicMaterial({ color: 0x6c6c6c });  // Matching background color
+            backgroundPlane = new THREE.Mesh(backgroundPlaneGeometry, backgroundPlaneMaterial);
+            backgroundPlane.rotation.x = -Math.PI / 2;
+            backgroundPlane.position.y = -0.01;  // Slightly below the main plane to avoid z-fighting
+            scene.add(backgroundPlane);
+
+            // Position Steve at the top-left corner of the textured plane
+            steve.position.set(-planeGeometry.parameters.width / 2 + 1, 0, -planeGeometry.parameters.height / 2 + 1);
+
+          }).catch(error => {
+            console.error('Error capturing the content element:', error);
+          }).finally(() => {
+            contentElement.style.height = ''; // Reset the height
+          });
+        }
       } else {
         const planeGeometry = new THREE.PlaneGeometry(texture.image.width / 10, texture.image.height / 10);  // Scale the plane to be larger
-        const planeMaterial = new THREE.MeshBasicMaterial({ map: texture });
+        const planeMaterial = new THREE.MeshBasicMaterial({map: texture});
         plane = new THREE.Mesh(planeGeometry, planeMaterial);
         plane.rotation.x = -Math.PI / 2;
         plane.position.y = 0;
@@ -230,7 +250,7 @@ export default defineComponent({
 
         // Create an extended floor with a uniform color matching the website background
         const backgroundPlaneGeometry = new THREE.PlaneGeometry(200, 200);  // Larger plane for the extended floor
-        const backgroundPlaneMaterial = new THREE.MeshBasicMaterial({ color: 0x6c6c6c });  // Matching background color
+        const backgroundPlaneMaterial = new THREE.MeshBasicMaterial({color: 0x6c6c6c});  // Matching background color
         backgroundPlane = new THREE.Mesh(backgroundPlaneGeometry, backgroundPlaneMaterial);
         backgroundPlane.rotation.x = -Math.PI / 2;
         backgroundPlane.position.y = -0.01;  // Slightly below the main plane to avoid z-fighting
@@ -242,8 +262,8 @@ export default defineComponent({
       let steveSpeed = 0.3;
       let carryingCube: THREE.Mesh | null = null;
       let keys: { [key: string]: boolean } = {};
-      const planeWidth = document.body.clientWidth / 10;
-      const planeHeight = document.body.clientHeight / 10;
+      const planeWidth = 2000;
+      const planeHeight = 2000;
 
       // Event listeners for keyboard inputs
       document.addEventListener('keydown', (event) => {
@@ -283,6 +303,7 @@ export default defineComponent({
         const newPositionX = steve.position.x + moveX;
         const newPositionZ = steve.position.z + moveZ;
 
+        // Update boundary checks based on the plane size
         if (newPositionX >= -planeWidth / 2 && newPositionX <= planeWidth / 2 &&
             newPositionZ >= -planeHeight / 2 && newPositionZ <= planeHeight / 2) {
           steve.position.x = newPositionX;
@@ -411,48 +432,63 @@ export default defineComponent({
 </script>
 
 <style scoped>
+
 body {
   margin: 0;
   overflow: hidden; /* Disable scrolling */
 }
+
 canvas {
   display: block;
   position: absolute;
   top: 0;
   left: 0;
 }
+
 #content {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'Poppins', Courier, monospace;
+  font-weight: bold;
   background-color: #262626;
-  color: #f0f0f0;
+  color: #ffffff;
   padding: 20px;
   max-width: 800px;
   margin: auto;
   overflow-y: auto;
   height: 90vh; /* Adjust this value based on your needs */
 }
+
+.scrollable-content { /* New class for content within #content */
+  overflow-y: hidden; /* Disable scrolling within content for 3D view */
+}
+
 h1, h2, h3 {
   color: #a81be7;
 }
+
 a {
   color: #39baec;
 }
+
 button {
-  background-color: #7b3f00;
+  background-color: #a81be7;
   color: #f0f0f0;
   border: none;
   padding: 10px;
   margin: 10px;
   cursor: pointer;
   transition: background-color 0.3s;
+  border-radius: 5px;
 }
+
 button:hover {
-  background-color: #a05000;
+  background-color: #76169f;
 }
+
 img {
   max-width: 100%;
   height: auto;
 }
+
 .figure-text {
   display: flex;
   flex-wrap: wrap;
@@ -460,16 +496,19 @@ img {
   justify-content: space-between;
   margin-bottom: 20px;
 }
+
 .figure {
   flex: 1;
   min-width: 200px;
   margin: 10px;
   text-align: center;
 }
+
 .figure-caption {
   text-align: center;
   margin-top: 5px;
 }
+
 /* HUD styles */
 #hud {
   position: absolute;
@@ -481,5 +520,19 @@ img {
   border-radius: 5px;
   font-family: 'Courier New', Courier, monospace;
   z-index: 1000; /* Ensure it's on top of the canvas */
+}
+
+/* Custom scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* Make the background transparent */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: grey; /* Set the color of the scrollbar thumb */
+  border-radius: 10px; /* Make the scrollbar thumb rounded */
 }
 </style>
