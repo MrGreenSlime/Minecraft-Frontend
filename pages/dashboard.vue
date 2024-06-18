@@ -14,18 +14,14 @@
                     class="w-full p-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
               Select World
             </button>
-            <p v-if="selectedWorldName" class="selected-item mt-2 text-center">Selected World: {{
-                selectedWorldName
-              }}</p>
+            <p v-if="selectedWorldName" class="selected-item mt-2 text-center">Selected World: {{ selectedWorldName }}</p>
           </div>
           <div class="selection-box">
             <button @click="showColonyModal = true"
                     class="w-full p-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
               Select Colony
             </button>
-            <p v-if="selectedColonyName" class="selected-item mt-2 text-center">Selected Colony: {{
-                selectedColonyName
-              }}</p>
+            <p v-if="selectedColonyName" class="selected-item mt-2 text-center">Selected Colony: {{ selectedColonyName }}</p>
           </div>
         </div>
 
@@ -34,13 +30,13 @@
                   @click="completeAllRequests">
             Autocomplete All Requests
           </button>
-          <button class="w-full p-2 mb-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+          <button :class="['w-full', 'p-2', 'mb-2', 'rounded-lg', autoTools ? 'bg-green-600' : 'bg-purple-600', 'text-white', 'hover:bg-purple-700']"
                   @click="completeTools">
-            Autocomplete Tools
+            {{ autoTools ? 'Disable Autocomplete Tools' : 'Autocomplete Tools' }}
           </button>
-          <button class="w-full p-2 mb-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+          <button :class="['w-full', 'p-2', 'mb-2', 'rounded-lg', autoArmor ? 'bg-green-600' : 'bg-purple-600', 'text-white', 'hover:bg-purple-700']"
                   @click="completeArmor">
-            Autocomplete Armor
+            {{ autoArmor ? 'Disable Autocomplete Armor' : 'Autocomplete Armor' }}
           </button>
           <button class="w-full p-2 mb-2 bg-red-600 text-white rounded-lg hover:bg-red-700 red"
                   @click="deleteColony">
@@ -49,6 +45,10 @@
           <button class="w-full p-2 mb-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
                   @click="viewPlayerStorage">
             View Player Storage
+          </button>
+          <button class="w-full p-2 mb-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                  @click="viewColonyStorage">
+            View Colony Storage
           </button>
         </div>
 
@@ -60,15 +60,12 @@
               <tr>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description
-                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Target</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">State</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Count</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Min Count
-                </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At
-                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Min Count</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
               </tr>
               </thead>
               <tbody class="bg-white divide-y divide-gray-200">
@@ -93,11 +90,8 @@
               <tr>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Autocomplete
-                </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At
-                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Autocomplete</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
               </tr>
               </thead>
@@ -144,12 +138,41 @@
     <div v-if="showStorageModal" class="modal-overlay" @click.self="showStorageModal = false">
       <div class="modal-content">
         <h2>Player Storage Items</h2>
-        <ul>
-          <li v-for="item in playerItems" :key="item.id">
-            <strong>{{ item.name }}</strong>: {{ item.quantity }}
+        <div class="storage-columns">
+          <div class="storage-column">
+            <h3>Items</h3>
+            <hr>
+            <ul>
+              <li class="player-storage-item" v-for="item in playerItemsWithAmount" :key="item.id">
+                <strong>{{ item.displayName }}</strong>: {{ item.amount }}
+              </li>
+            </ul>
+          </div>
+          <div class="storage-column">
+            <h3>Patterns</h3>
+            <hr>
+            <ul>
+              <li class="player-storage-item" v-for="pattern in playerPatterns" :key="pattern.id">
+                <strong>{{ pattern.displayName }}</strong>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <button @click="showStorageModal = false" class="close-modal">Close</button>
+      </div>
+    </div>
+
+
+    <!-- Colony Storage Modal -->
+    <div v-if="showColonyStorageModal" class="modal-overlay" @click.self="showColonyStorageModal = false">
+      <div class="modal-content">
+        <h2>Colony Storage Items</h2>
+        <ul class="colony-storage-grid">
+          <li class="colony-storage-item" v-for="item in colonyItems" :key="item.id">
+            <strong>{{ item.displayName }}</strong>: {{ item.amount }}
           </li>
         </ul>
-        <button @click="showStorageModal = false" class="close-modal">Close</button>
+        <button @click="showColonyStorageModal = false" class="close-modal">Close</button>
       </div>
     </div>
 
@@ -198,7 +221,7 @@
 </template>
 
 <script setup>
-import {ref, onMounted} from 'vue';
+import {ref, computed, onMounted} from 'vue';
 import axios from 'axios';
 import {useAuthStore} from '@/stores/auth';
 import {useRouter} from 'vue-router';
@@ -220,6 +243,12 @@ const expandedRequest = ref(null);
 const builderRequestDetails = ref({});
 const showWorldModal = ref(false);
 const showColonyModal = ref(false);
+const showStorageModal = ref(false);
+const showColonyStorageModal = ref(false);
+const playerItems = ref([]);
+const colonyItems = ref([]);
+const autoTools = ref(false);
+const autoArmor = ref(false);
 
 const fetchWorlds = async () => {
   try {
@@ -271,8 +300,16 @@ const fetchColonyData = async () => {
     const data = response.data.data;
     requests.value = data.requests;
     builderRequests.value = data.builderRequests;
+    autoTools.value = data.autoTools;
+    autoArmor.value = data.autoArmor;
+    playerItems.value = data.storage_items.filter(item => item.type === 'player' || item.type === 'pattern');  // Extract player storage items here
+    colonyItems.value = data.storage_items.filter(item => item.type === 'colonie');  // Extract colony storage items here
     console.log('Requests:', data.requests);
     console.log('Builder Requests:', data.builderRequests);
+    console.log('AutoTools:', data.autoTools);
+    console.log('AutoArmor:', data.autoArmor);
+    console.log('Player Items:', playerItems.value);  // Log player items for debugging
+    console.log('Colony Items:', colonyItems.value);  // Log colony items for debugging
   } catch (error) {
     console.error('Error fetching colony data:', error);
   } finally {
@@ -309,22 +346,17 @@ const toggleBuilderRequestInfo = (builderRequestId) => {
 
 const toggleAutocomplete = async (builderRequestId) => {
   try {
+    const builderRequest = builderRequests.value.find((request) => request.id === builderRequestId);
+    const newAutocompleteState = !builderRequest.autocomplete;
+
     await axios.put(
         `http://78.23.6.113:8080/api/builderrequests/${builderRequestId}`,
-        {
-          autocomplete: true,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        {autocomplete: newAutocompleteState},
+        {headers: {Authorization: `Bearer ${token}`}}
     );
+
     // Update the local state
-    const requestIndex = builderRequests.value.findIndex((request) => request.id === builderRequestId);
-    if (requestIndex !== -1) {
-      builderRequests.value[requestIndex].autocomplete = true;
-    }
+    builderRequest.autocomplete = newAutocompleteState;
     alert('Builder request updated successfully.');
   } catch (error) {
     console.error('Error updating builder request:', error);
@@ -336,15 +368,10 @@ const completeAllRequests = async () => {
   try {
     await axios.put(
         `http://78.23.6.113:8080/api/colonies/${selectedColony.value}`,
-        {
-          autocomplete: true,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        {autocomplete: true},
+        {headers: {Authorization: `Bearer ${token}`}}
     );
+    await fetchColonyData(); // Refetch colony data to update the UI
     alert('All requests completed successfully.');
   } catch (error) {
     console.error('Error completing all requests:', error);
@@ -354,18 +381,16 @@ const completeAllRequests = async () => {
 
 const completeTools = async () => {
   try {
+    const newAutoToolsState = !autoTools.value;
+
     await axios.put(
         `http://78.23.6.113:8080/api/colonies/${selectedColony.value}`,
-        {
-          autoTools: true,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        {autoTools: newAutoToolsState},
+        {headers: {Authorization: `Bearer ${token}`}}
     );
-    alert('Tools requests completed successfully.');
+
+    autoTools.value = newAutoToolsState;
+    alert(`Tools requests ${newAutoToolsState ? 'enabled' : 'disabled'} successfully.`);
   } catch (error) {
     console.error('Error completing tools requests:', error);
     alert('Failed to complete tools requests.');
@@ -374,18 +399,16 @@ const completeTools = async () => {
 
 const completeArmor = async () => {
   try {
+    const newAutoArmorState = !autoArmor.value;
+
     await axios.put(
         `http://78.23.6.113:8080/api/colonies/${selectedColony.value}`,
-        {
-          autoArmor: true,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        {autoArmor: newAutoArmorState},
+        {headers: {Authorization: `Bearer ${token}`}}
     );
-    alert('Armor requests completed successfully.');
+
+    autoArmor.value = newAutoArmorState;
+    alert(`Armor requests ${newAutoArmorState ? 'enabled' : 'disabled'} successfully.`);
   } catch (error) {
     console.error('Error completing armor requests:', error);
     alert('Failed to complete armor requests.');
@@ -422,29 +445,21 @@ const deleteColony = async () => {
   }
 };
 
-const showStorageModal = ref(false);
-const playerItems = ref([]);
+const playerItemsWithAmount = computed(() => {
+  return playerItems.value.filter(item => item.type === 'player');
+});
 
-const fetchPlayerItems = async () => {
-  if (!selectedColony.value) return;
-  try {
-    const response = await axios.get(`http://78.23.6.113:8080/api/playerItems/${selectedColony.value}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    playerItems.value = response.data.data;
-    console.log('Player Items:', response.data.data);
-  } catch (error) {
-    console.error('Error fetching player items:', error);
-  }
-};
+const playerPatterns = computed(() => {
+  return playerItems.value.filter(item => item.type === 'pattern');
+});
 
 const viewPlayerStorage = async () => {
-  await fetchPlayerItems();
   showStorageModal.value = true;
 };
 
+const viewColonyStorage = async () => {
+  showColonyStorageModal.value = true;
+};
 
 const selectWorld = (worldId) => {
   const world = worlds.value.find((w) => w.id === worldId) || {};
@@ -629,7 +644,6 @@ tbody tr:hover {
   overflow-y: auto;
 }
 
-
 .details-container p,
 .details-container ul {
   margin: 0.5rem 0;
@@ -638,7 +652,6 @@ tbody tr:hover {
 .details-container ul {
   padding-left: 1.2rem;
 }
-
 
 .modal-overlay {
   position: fixed;
@@ -738,7 +751,6 @@ tbody tr:hover {
     opacity: 1;
     transform: translateX(0);
   }
-
 }
 
 .red {
@@ -748,4 +760,41 @@ tbody tr:hover {
 .red:hover {
   background-color: #880c29;
 }
+
+.storage-columns {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.storage-column {
+  width: 48%;
+}
+
+.storage-column h3 {
+  margin-bottom: 1rem;
+}
+
+.player-storage-item {
+  background-color: #333;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  text-align: center;
+}
+
+
+/* Styles for Colony Storage Modal */
+.colony-storage-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.colony-storage-item {
+  background-color: #333;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  text-align: center;
+}
+
 </style>
