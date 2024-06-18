@@ -822,7 +822,7 @@ tbody tr:hover {
 }
 
 
-@media (max-height: 1000px) {
+@media (min-height: 1000px) {
   .dashboard {
     margin-top: 5rem;
   }
