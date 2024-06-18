@@ -42,7 +42,7 @@ const handleRegister = async () => {
       password: password.value,
       password_confirmation: password.value
     })
-    alert(response.data.message)
+    response.data.message
     router.push('/login')
   } catch (error) {
     alert('Registration failed. Please try again.')
